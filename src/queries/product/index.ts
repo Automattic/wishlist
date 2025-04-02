@@ -25,7 +25,7 @@ const mockProducts: Product[] = [
 	{
 		id: 2,
 		name: 'Product 02',
-		image: 'https://karanzi.websites.co.in/obaju-turquoise/img/product-placeholder.png',
+		image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlndpwDalSNF8TzBG6T7kGv73l0IOReNJpKw&s',
 		rating: 4,
 		price: 10.9,
 	},
