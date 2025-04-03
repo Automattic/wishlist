@@ -21,9 +21,9 @@ const ProductValidator = z.object({
   shopName: z.string(),
   productUrl: z.string().url(),
   imageUrl: z.string().url(),
-  priceMin: z.coerce.number().optional(),
-  priceMax: z.coerce.number().optional(),
-  currency: z.string().optional(),
+  priceMin: z.coerce.number().optional().nullable(),
+  priceMax: z.coerce.number().optional().nullable(),
+  currency: z.string().optional().nullable(),
 });
 
 type Product = z.infer<typeof ProductValidator>;
@@ -63,7 +63,12 @@ const readShops = async (filename: string) => {
   const content = await readFileSync(filename, 'utf-8')
     .split('\n')
     .map((line) => {
-      const [name, url] = line.split(',');
+      let [name, url] = line.split(',');
+
+      if (!url?.startsWith('http')) {
+        url = `https://${url}`;
+      }
+
       return { name, url };
     });
 
