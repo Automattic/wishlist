@@ -48,3 +48,11 @@ The command accepts 2 parameters:
 
  - `--workers` will tweak the concurrent shops to be scraped (default: `1`)
  - `--csv` can be used to supply a custom csv path (default: `shops.csv`)
+
+### 2. Run the prepare db script
+
+Next you need to run the script to prepare the db for vector search:
+
+    $ tsx src/scraper/prepDb.ts
+
+This will take a bit of time, while it downloads the model for creating the embedding and calculates those too.

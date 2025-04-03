@@ -16,6 +16,7 @@
     "batch-promises": "^0.0.3",
     "better-sqlite3": "^11.9.1",
     "cheerio": "^1.0.0",
+    "fastembed": "^1.14.2",
     "js-sha256": "^0.11.0",
     "next": "15.2.4",
     "react": "^19.0.0",
