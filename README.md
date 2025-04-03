@@ -34,3 +34,17 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Prepare the DB with products
+
+### 1. Run the scraper
+
+First you will need to run a scraper to build the database and fill it with products.
+You will need to supply a `shops.csv` file, where each line is a different shop (name,url).
+
+    $ tsx src/scraper/scrape.ts
+
+The command accepts 2 parameters:
+
+ - `--workers` will tweak the concurrent shops to be scraped (default: `1`)
+ - `--csv` can be used to supply a custom csv path (default: `shops.csv`)
