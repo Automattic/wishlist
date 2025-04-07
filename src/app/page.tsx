@@ -2,8 +2,8 @@ export default function Home() {
 	return (
 		<div className="flex justify-center leading-[1.2] h-screen">
 			<main className="flex flex-col max-w-[1024px] h-full py-[32px] px-[20px]">
-				<h1 className="text-[#101517] text-[48px] font-bold">WiSH</h1>
-				<h2 className="mt-[114px] text-[#101517] text-[32px]">
+				<h1 className="text-[var(--color-light-black)] text-[48px] font-bold">WiSH</h1>
+				<h2 className="mt-[114px] text-[var(--color-light-black)] text-[32px]">
 					Get 9 gift recommendations for friends
 				</h2>
 				<form className="flex-1 flex flex-col">
@@ -14,7 +14,7 @@ export default function Home() {
 						<input
 							id="email"
 							name="email"
-							className="w-full h-[48px] py-[8px] px-[12px] border border-[#101517] rounded-[8px]"
+							className="w-full h-[48px] py-[8px] px-[12px] border border-[var(--color-light-black)] rounded-[8px]"
 							placeholder="Enter your friend’s email"
 							required
 						/>
@@ -24,7 +24,7 @@ export default function Home() {
 						<select
 							id="budget"
 							name="budget"
-							className="mt-[8px] w-full h-[48px] py-[8px] px-[12px] border border-[#101517] rounded-[8px] appearance-none bg-[url('/images/ico-chevron-down.svg')] bg-no-repeat bg-[position:calc(100%-8px)_center] bg-[length:24px_24px] pr-[32px]"
+							className="mt-[8px] w-full h-[48px] py-[8px] px-[12px] border border-[var(--color-light-black)] rounded-[8px] appearance-none bg-[url('/images/ico-chevron-down.svg')] bg-no-repeat bg-[position:calc(100%-8px)_center] bg-[length:24px_24px] pr-[32px]"
 							defaultValue=""
 							required
 						>
@@ -36,7 +36,7 @@ export default function Home() {
 					</div>
 					<button
 						type="submit"
-						className="self-end mt-auto w-full h-[48px] bg-[#101517] rounded-[8px] text-[#fff]"
+						className="self-end mt-auto w-full h-[48px] bg-[var(--color-light-black)] rounded-[8px] text-[var(--color-white)]"
 					>
 						Get started
 					</button>
