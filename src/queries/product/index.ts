@@ -1,53 +1,75 @@
+import Database from "better-sqlite3";
+import { EmbeddingModel, FlagEmbedding } from "fastembed";
+import * as sqliteVec from "sqlite-vec";
 import { useQuery } from '@tanstack/react-query';
-import { BaseQueryOptions, Product } from '../../../types';
+import axios from "axios";
+import { BaseQueryOptions } from '../../../types';
 
-const delay = ( ms: number ) => new Promise( resolve => setTimeout( resolve, ms ) );
+const db = new Database('db.db');
+sqliteVec.load(db);
+
+type Product = {
+	id: number;
+	product_name: string;
+	description: string;
+	shop_name: string;
+	product_url: string;
+	image_url: string;
+	price_min: number;
+	price_max: number;
+	currency: string;
+}
+
+export const findProducts = async (query: string) => {
+	const embeddingModel = await FlagEmbedding.init({
+		model: EmbeddingModel.BGEBaseENV15
+	});
+
+	const embeddings = embeddingModel.embed(query.split(','));
+
+	let results: {
+		product_id: number;
+		distance: number;
+	}[] = [];
+
+	const q = db.prepare(`
+		select
+			rowid,
+			product_id,
+			distance
+		from product_vectors
+		where product_embedding match ?
+		order by distance
+		limit 4;
+	`);
+
+	for await (const batch of embeddings) {
+		for (const b of batch) {
+			results = results.concat(q.all(b) as any);
+		}
+	}
+
+	const productIds = results.map((result) => result.product_id);
+
+	const productQuery = db.prepare(`
+		select
+			*
+		from products
+		where id in (${productIds.join(',')});
+	`);
+
+	return productQuery.all() as Product[];
+}
 
 export const useRecommendedProducts = ( hash?: string, options?: BaseQueryOptions<Product[]> ) => {
 	return useQuery( {
 		queryKey: [ 'products', hash ],
 		queryFn: async () => {
-			await delay( 2000 );
-			return mockProducts;
+			const res = await axios.get(`https://api.gravatar.com/v3/profiles/${hash}`);
+			console.log(res.data);
+			return [];
+			return findProducts('test');
 		},
 		...options,
 	} );
 };
-
-const mockProducts: Product[] = [
-	{
-		id: 1,
-		name: 'USB-C 65W Charger',
-		image: 'https://images.mironet.cz/foto/3/96118195/cze_pl_Nabijecka-GaN-GravaStar-Alpha65-65W-zluta-43790_1.jpg',
-		rating: 4.5,
-		price: 59.95,
-	},
-	{
-		id: 2,
-		name: 'Product 02',
-		image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlndpwDalSNF8TzBG6T7kGv73l0IOReNJpKw&s',
-		rating: 4,
-		price: 10.9,
-	},
-	{
-		id: 3,
-		name: 'Product 03',
-		image: 'https://karanzi.websites.co.in/obaju-turquoise/img/product-placeholder.png',
-		rating: 4,
-		price: 22.9,
-	},
-	{
-		id: 4,
-		name: 'Product 04',
-		image: 'https://karanzi.websites.co.in/obaju-turquoise/img/product-placeholder.png',
-		rating: 4,
-		price: 11.9,
-	},
-	{
-		id: 5,
-		name: 'Product 05',
-		image: 'https://karanzi.websites.co.in/obaju-turquoise/img/product-placeholder.png',
-		rating: 4,
-		price: 34.9,
-	},
-];

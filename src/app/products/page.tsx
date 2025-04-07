@@ -1,9 +1,17 @@
 'use client';
 
 import { useGravatarUser } from '@/queries/user';
-import { useRecommendedProducts } from '@/queries/product';
+import { useQuery } from '@tanstack/react-query';
+import { ReactNode } from 'react';
 
-const Wrapper = ( { children } ) =>
+interface Product {
+	id: string;
+	name: string;
+	price: number;
+	image: string;
+}
+
+const Wrapper = ( { children }: { children: ReactNode } ) =>
 	<div className="h-full flex flex-col items-center justify-center gap-5">{ children }</div>;
 
 export default function ProductList() {
@@ -11,15 +19,23 @@ export default function ProductList() {
 		data: userData,
 		isError: isFetchUserError,
 		isFetching: isFetchingUser,
-	} = useGravatarUser( 'joao.heringer@automattic.com' );
+	} = useGravatarUser( 'stefano.sala@automattic.com' );
 
 	const {
 		data: products,
 		isError: isFetchProductsError,
 		isFetching: isFetchingProducts,
-	} = useRecommendedProducts( userData?.hash, {
-		enabled: !! userData?.hash,
-	} );
+	} = useQuery({
+		queryKey: ['products'],
+		queryFn: async () => {
+			const response = await fetch(`/api/products?hash=${userData?.hash}`);
+			if (!response.ok) {
+				throw new Error('Failed to fetch products');
+			}
+			return response.json();
+		},
+		enabled: !!userData?.hash,
+	});
 
 	if ( isFetchingUser ) {
 		return <Wrapper>
@@ -56,9 +72,9 @@ export default function ProductList() {
 
 	return (
 		<div className="p-6 flex flex-col gap-6">
-			{ products?.map( ( product ) => (
+			{ products?.map( ( product: Product ) => (
 				<div className="flex flex-col gap-4 rounded-sm p-4 shadow-md" key={ product.id }>
-					<img src={product.image} />
+					<img src={product.image} alt={product.name} />
 					<div className="flex flex-col">
 						<span className="text-2xl">{ product.name }</span>
 						<span className="text-2xl font-semibold">${ product.price.toFixed(2) }</span>
