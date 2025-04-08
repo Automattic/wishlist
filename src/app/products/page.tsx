@@ -2,7 +2,6 @@
 
 import { useGravatarUser } from '@/queries/user';
 import { useRecommendedProducts } from '@/queries/product';
-import { sha256 } from 'js-sha256';
 
 const Wrapper = ( { children } ) =>
 	<div className="h-full flex flex-col items-center justify-center gap-5">{ children }</div>;
@@ -12,7 +11,7 @@ export default function ProductList() {
 		data: userData,
 		isError: isFetchUserError,
 		isFetching: isFetchingUser,
-	} = useGravatarUser( sha256('joao.heringer@automattic.com') );
+	} = useGravatarUser( 'joao.heringer@automattic.com' );
 
 	const {
 		data: products,

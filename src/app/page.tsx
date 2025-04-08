@@ -4,7 +4,6 @@ import { useState, useCallback } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import _debounce from 'lodash.debounce';
-import { sha256 } from 'js-sha256';
 import { useGravatarUser } from '@/queries/user';
 import isEmail from '@/utils/is-email';
 import clsx from 'clsx';
@@ -16,7 +15,7 @@ export default function Home() {
 	const isEmailValid = isEmail(debouncedEmailVal);
 	const router = useRouter();
 
-	const { data } = useGravatarUser(sha256(debouncedEmailVal), {
+	const { data } = useGravatarUser(debouncedEmailVal, {
 		enabled: !!debouncedEmailVal && isEmailValid,
 	});
 
