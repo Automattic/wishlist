@@ -28,7 +28,7 @@ export default function Home() {
 	);
 
 	return (
-		<div className="flex justify-center leading-[1.2] h-screen">
+		<div className="flex justify-center h-screen">
 			<main className="flex flex-col max-w-[1024px] h-full py-[32px] px-[20px]">
 				<h1 className="text-[var(--color-light-black)] text-[48px] font-bold">
 					WiSH

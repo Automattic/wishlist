@@ -21,8 +21,10 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
-			<body className={`${sfProDisplayRegular.className} antialiased text-[var(--color-black)] bg-[var(--color-white)]`}>
+		<html lang="en" className="h-full">
+			<body
+				className={`${sfProDisplayRegular.className} h-full antialiased text-[var(--color-black)] leading-[1.2] bg-[var(--color-white)]`}
+			>
 				<Providers>{children}</Providers>
 			</body>
 		</html>
