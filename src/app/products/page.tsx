@@ -2,6 +2,7 @@
 
 import { useGravatarUser } from '@/queries/user';
 import { useRecommendedProducts } from '@/queries/product';
+import { sha256 } from 'js-sha256';
 
 const Wrapper = ( { children } ) =>
 	<div className="h-full flex flex-col items-center justify-center gap-5">{ children }</div>;
@@ -11,7 +12,7 @@ export default function ProductList() {
 		data: userData,
 		isError: isFetchUserError,
 		isFetching: isFetchingUser,
-	} = useGravatarUser( 'joao.heringer@automattic.com' );
+	} = useGravatarUser( sha256('joao.heringer@automattic.com') );
 
 	const {
 		data: products,
@@ -21,6 +22,7 @@ export default function ProductList() {
 		enabled: !! userData?.hash,
 	} );
 
+	// NOTE: A very good case to use React Suspense (if you want).
 	if ( isFetchingUser ) {
 		return <Wrapper>
 			<div className="rounded-full w-[120] h-[120] bg-gray-400 animate-pulse" />

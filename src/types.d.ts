@@ -5,11 +5,12 @@ type BaseQueryOptions<TData, TError = Error> = Omit<
 	'queryKey' | 'queryFn'
 >;
 
-type User = {
+type User = Parial<{
+	error: string;
 	display_name: string;
 	hash: string;
 	avatar_url: string;
-}
+}>;
 
 type Product = {
 	id: number;
@@ -17,4 +18,4 @@ type Product = {
 	image: string;
 	rating: number;
 	price: number;
-}
+};
