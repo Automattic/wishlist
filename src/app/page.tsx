@@ -97,7 +97,7 @@ export default function Home() {
 					)}
 					disabled={!data?.hash || !budgetVal}
 					onClick={() =>
-						router.push(`/products/${data.hash}?budget=${budgetVal}`)
+						router.push(`/gift/${data.hash}?budget=${budgetVal}`)
 					}
 				>
 					Get started
