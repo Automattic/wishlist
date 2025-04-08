@@ -3,7 +3,7 @@
 import { RecommendedProduct } from '@/types/recommendations';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
+
 export default function GiftPage() {
 	const params = useParams();
 	const searchParams = useSearchParams();
@@ -38,7 +38,7 @@ export default function GiftPage() {
 				<div key={recommendation.id}>
 					<p>{recommendation.name} {recommendation.price}</p>
 					<p>{recommendation.description}</p>
-					<Image src={recommendation.imageUrl} alt={recommendation.name} width={200} height={200} />
+					<img src={recommendation.imageUrl} alt={recommendation.name} width={200} height={200} />
 					<button style={{ marginRight: '10px', backgroundColor: 'green', color: 'white', padding: '5px 10px', borderRadius: '5px' }} onClick={() => handleProduct(recommendation.id, 'wishlist')}>Add to Wishlist</button>
 					<button style={{ marginRight: '10px', backgroundColor: 'red', color: 'white', padding: '5px 10px', borderRadius: '5px' }} onClick={() => handleProduct(recommendation.id, 'discard')}>Discard</button>
 				</div>
