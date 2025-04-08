@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { BaseQueryOptions, Product } from '../../../types';
+import { BaseQueryOptions, Product } from '../../types';
 
 const delay = ( ms: number ) => new Promise( resolve => setTimeout( resolve, ms ) );
 
