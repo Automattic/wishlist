@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import _debounce from 'lodash.debounce';
 import { useGravatarUser } from '@/queries/user';
+import { sha256 } from 'js-sha256';
 import isEmail from '@/utils/is-email';
 import clsx from 'clsx';
 
@@ -15,7 +16,7 @@ export default function Home() {
 	const isEmailValid = isEmail(debouncedEmailVal);
 	const router = useRouter();
 
-	const { data } = useGravatarUser(debouncedEmailVal, {
+	const { data } = useGravatarUser(sha256(debouncedEmailVal), {
 		enabled: !!debouncedEmailVal && isEmailValid,
 	});
 
@@ -91,7 +92,7 @@ export default function Home() {
 				</select>
 				<button
 					className={clsx(
-						'self-end mt-auto w-full h-[48px] bg-[var(--color-light-black)] rounded-[8px] text-[var(--color-white)]',
+						'self-end mt-auto w-full h-[48px] bg-[var(--color-light-black)] rounded-[8px] text-[var(--color-white)] cursor-pointer',
 						{ 'opacity-50': !data?.hash || !budgetVal }
 					)}
 					disabled={!data?.hash || !budgetVal}

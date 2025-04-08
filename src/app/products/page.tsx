@@ -11,7 +11,7 @@ export default function ProductList() {
 		data: userData,
 		isError: isFetchUserError,
 		isFetching: isFetchingUser,
-	} = useGravatarUser( 'joao.heringer@automattic.com' );
+	} = useGravatarUser( '4f615f4811330c1883eb440d6621e7c2bb8e4bbb610f74e1159d2973a0aea99f' );
 
 	const {
 		data: products,
