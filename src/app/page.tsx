@@ -47,14 +47,14 @@ export default function Home() {
 							alt={data.display_name}
 							width="32"
 							height="32"
-							className="absolute top-[8px] left-[15px] rounded-[50%]"
+							className="absolute top-[9px] left-[15px] rounded-[50%]"
 						/>
 					)}
 					<input
 						id="email"
 						name="email"
 						className={clsx(
-							'w-full h-[48px] py-[10px] px-[15px] border border-[var(--color-light-black)] rounded-[8px]',
+							'w-full h-[49px] py-[10px] px-[15px] border border-[var(--color-light-black)] rounded-[8px]',
 							{ 'pl-[52px]': !!data?.avatar_url }
 						)}
 						placeholder="Enter your friend’s email"
@@ -81,7 +81,7 @@ export default function Home() {
 				<select
 					id="budget"
 					name="budget"
-					className="mt-[8px] w-full h-[48px] py-[10px] px-[15px] border border-[var(--color-light-black)] rounded-[8px] appearance-none bg-[url('/images/ico-chevron-down.svg')] bg-no-repeat bg-[position:calc(100%-8px)_center] bg-[length:24px_24px] pr-[32px]"
+					className="mt-[8px] w-full h-[49px] py-[10px] px-[15px] border border-[var(--color-light-black)] rounded-[8px] appearance-none bg-[url('/images/ico-chevron-down.svg')] bg-no-repeat bg-[position:calc(100%-8px)_center] bg-[length:24px_24px] pr-[32px]"
 					value={budgetVal}
 					onChange={({ target }) => setBudgetVal(target.value)}
 				>
