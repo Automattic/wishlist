@@ -5,12 +5,12 @@ import isEmail from '@/utils/is-email';
 import { BaseQueryOptions, User } from '@/types';
 
 export const useGravatarUser = ( emailOrHash: string, options?: BaseQueryOptions<User> ) => {
-	emailOrHash = isEmail( emailOrHash ) ? sha256( emailOrHash ) : emailOrHash;
+	const hash = isEmail( emailOrHash ) ? sha256( emailOrHash ) : emailOrHash;
 
 	return useQuery( {
-		queryKey: [ 'user', emailOrHash ],
+		queryKey: [ 'user', hash ],
 		queryFn: async () => {
-			const response = await fetch( `https://api.gravatar.com/v3/profiles/${ emailOrHash }` );
+			const response = await fetch( `https://api.gravatar.com/v3/profiles/${ hash }` );
 			return response.json();
 		},
 		...options,
