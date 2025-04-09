@@ -7,3 +7,19 @@
 	--color-light-gray: #f0f0f0;
 	--color-red: #ff0000;
 }
+
+@keyframes marquee {
+	0% {
+		transform: translateX(0);
+	}
+	100% {
+		transform: translateX(-50%);
+	}
+}
+
+.animate-marquee {
+	animation: marquee 30s linear infinite;
+	will-change: transform;
+	backface-visibility: hidden;
+	transform: translateZ(0);
+}
