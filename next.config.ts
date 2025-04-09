@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
 			},
 		],
 	},
+	serverExternalPackages: [
+		'@anush008/tokenizers',
+		'@anush008/tokenizers-darwin-universal',
+		'sqlite-vec',
+	],
 };
 
 export default nextConfig;
