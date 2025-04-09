@@ -23,3 +23,24 @@
 	backface-visibility: hidden;
 	transform: translateZ(0);
 }
+
+.product-card {
+	position: absolute;
+	left: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	border-radius: 16px;
+	padding: 24px;
+	background-color: var(--color-white);
+	cursor: grab;
+	user-select: none;
+	will-change: transform;
+	box-shadow: 0px 64px 54px 0px rgba(0, 0, 0, 0.07), 
+				0px 19.294px 16.279px 0px rgba(0, 0, 0, 0.05), 
+				0px 8.014px 6.762px 0px rgba(0, 0, 0, 0.04), 
+				0px 2.898px 2.446px 0px rgba(0, 0, 0, 0.02);
+}
