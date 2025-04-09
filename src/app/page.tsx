@@ -29,148 +29,290 @@ export default function Home() {
 
 	return (
 		<main>
-			<div className="flex flex-col gap-[40px] bg-[var(--color-light-gray)] py-[24px] px-[20px]">
+			<div className="flex flex-col gap-[40px] bg-[var(--color-light-gray)] py-[24px] px-[20px] overflow-hidden">
 				<h1 className="text-[var(--color-light-black)] text-[48px] font-[700]">
 					WiSH
 				</h1>
-				<div className="gap-[24px] mx-[-20px] px-[20px] overflow-hidden">
-					<div className="flex animate-marquee">
+				<div className="flex gap-[24px] w-[6856px] animate-marquee">
+					<div className="flex gap-[24px]">
 						<Image
-							className="rounded-[20px]"
-							src="/images/apple-watch.png"
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/apple-watch.jpg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px]"
-							src="/images/apple-watch.png"
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/nike-shoes.png"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px]"
-							src="/images/apple-watch.png"
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/apple-airpods.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px]"
-							src="/images/apple-watch.png"
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/grow-your-own.webp"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px]"
-							src="/images/apple-watch.png"
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/drink-ware.webp"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px]"
-							src="/images/apple-watch.png"
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/camera.webp"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px]"
-							src="/images/apple-watch.png"
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/ugg-shoes.webp"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px]"
-							src="/images/apple-watch.png"
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/amazon-kindle.jpg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px]"
-							src="/images/apple-watch.png"
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/fur-hat.jpg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px]"
-							src="/images/apple-watch.png"
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/candle.jpg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px]"
-							src="/images/apple-watch.png"
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/coffee-machine.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px]"
-							src="/images/apple-watch.png"
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/hair-dryer.jpg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px]"
-							src="/images/apple-watch.png"
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/ceo-glow.webp"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px]"
-							src="/images/apple-watch.png"
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/perfume.jpg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px]"
-							src="/images/apple-watch.png"
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/recess-pickleball.webp"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px]"
-							src="/images/apple-watch.png"
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/sun-glasses.webp"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px]"
-							src="/images/apple-watch.png"
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/journal.webp"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px]"
-							src="/images/apple-watch.png"
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/light.jpg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px]"
-							src="/images/apple-watch.png"
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/earphone.webp"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px]"
-							src="/images/apple-watch.png"
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/switch.jpeg"
+							width="148"
+							height="175"
+							alt=""
+						/>
+					</div>
+					<div className="flex gap-[24px]">
+						<Image
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/apple-watch.jpg"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/nike-shoes.png"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/apple-airpods.jpeg"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/grow-your-own.webp"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/drink-ware.webp"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/camera.webp"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/ugg-shoes.webp"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/amazon-kindle.jpg"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/fur-hat.jpg"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/candle.jpg"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/coffee-machine.jpeg"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/hair-dryer.jpg"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/ceo-glow.webp"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/perfume.jpg"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/recess-pickleball.webp"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/sun-glasses.webp"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/journal.webp"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/light.jpg"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/earphone.webp"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
+							src="/images/switch.jpeg"
 							width="148"
 							height="175"
 							alt=""
