@@ -59,10 +59,12 @@ export default function ProductList() {
 		<div className="p-6 flex flex-col gap-6">
 			{ products?.map( ( product ) => (
 				<div className="flex flex-col gap-4 rounded-sm p-4 shadow-md" key={ product.id }>
-					<img src={product.image} />
+					<img src={product.imageUrl} />
 					<div className="flex flex-col">
-						<span className="text-2xl">{ product.name }</span>
-						<span className="text-2xl font-semibold">${ product.price.toFixed(2) }</span>
+						<span className="text-2xl">{ product.productName }</span>
+						{product.priceMin ? (
+							<span className="text-2xl font-semibold">{ product.priceMin.toLocaleString("en-EN", { style: "currency", currency: product.currency ?? "USD" }) }</span>
+						) : null}
 						<div className="flex gap-4 mt-4">
 							<button className="flex-1 border-1 rounded-md h-12">Not for me</button>
 							<button className="flex-1 bg-black text-white rounded-md">Add to wishlist</button>

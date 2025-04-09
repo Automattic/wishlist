@@ -1,7 +1,7 @@
 import Database from 'better-sqlite3';
 import * as sqliteVec from 'sqlite-vec';
 
-const db = new Database(`${import.meta.dirname}/../../db/products.db`);
+const db = new Database(`${process.cwd()}/db/products.db`);
 sqliteVec.load(db);
 
 export default db;
