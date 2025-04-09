@@ -319,12 +319,14 @@ export default function Home() {
 						/>
 					</div>
 				</div>
-				<p className="text-[var(--color-light-black)] text-[36px] font-[700]">
-					Get 9 gift recommendations for friends
-				</p>
+				<div className="w-full max-w-[680px] mx-auto">
+					<p className="text-[var(--color-light-black)] text-[36px] font-[700]">
+						Get 9 gift recommendations for friends
+					</p>
+				</div>
 			</div>
-			<div className="flex flex-col py-[24px] px-[20px]">
-				<label htmlFor="email" className="mb-[8px]">
+			<div className="flex flex-col py-[24px] px-[20px] max-w-[720px] mx-auto">
+				<label htmlFor="email" className="mb-[8px] text-[var(--color-light-black)]">
 					Add your friend
 				</label>
 				<div className="relative">
@@ -362,7 +364,7 @@ export default function Home() {
 						</div>
 					)}
 				</div>
-				<label htmlFor="budget" className="mt-[24px] mb-[8px]">
+				<label htmlFor="budget" className="mt-[24px] mb-[8px] text-[var(--color-light-black)]">
 					How much would you like to spend?
 				</label>
 				<select
