@@ -385,7 +385,7 @@ export default function Home() {
 					disabled={!data?.hash || !budgetVal}
 					onClick={() => router.push(`/gift/${data.hash}?budget=${budgetVal}`)}
 				>
-					Get started
+					Get recommendations
 				</button>
 				<div className="mt-[24px] text-[14px] text-center">
 					By continuing you agree to our terms
