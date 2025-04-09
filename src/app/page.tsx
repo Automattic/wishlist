@@ -28,16 +28,162 @@ export default function Home() {
 	);
 
 	return (
-		<div className="flex justify-center h-screen">
-			<main className="flex flex-col max-w-[1024px] h-full py-[32px] px-[20px]">
-				<h1 className="text-[var(--color-light-black)] text-[48px] font-bold">
+		<main>
+			<div className="flex flex-col gap-[40px] bg-[var(--color-light-gray)] py-[24px] px-[20px]">
+				<h1 className="text-[var(--color-light-black)] text-[48px] font-[700]">
 					WiSH
 				</h1>
-				<h2 className="mt-[114px] mb-[32px] text-[var(--color-light-black)] text-[32px]">
+				<div className="gap-[24px] mx-[-20px] px-[20px] overflow-hidden">
+					<div className="flex animate-marquee">
+						<Image
+							className="rounded-[20px]"
+							src="/images/apple-watch.png"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px]"
+							src="/images/apple-watch.png"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px]"
+							src="/images/apple-watch.png"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px]"
+							src="/images/apple-watch.png"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px]"
+							src="/images/apple-watch.png"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px]"
+							src="/images/apple-watch.png"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px]"
+							src="/images/apple-watch.png"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px]"
+							src="/images/apple-watch.png"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px]"
+							src="/images/apple-watch.png"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px]"
+							src="/images/apple-watch.png"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px]"
+							src="/images/apple-watch.png"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px]"
+							src="/images/apple-watch.png"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px]"
+							src="/images/apple-watch.png"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px]"
+							src="/images/apple-watch.png"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px]"
+							src="/images/apple-watch.png"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px]"
+							src="/images/apple-watch.png"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px]"
+							src="/images/apple-watch.png"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px]"
+							src="/images/apple-watch.png"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px]"
+							src="/images/apple-watch.png"
+							width="148"
+							height="175"
+							alt=""
+						/>
+						<Image
+							className="rounded-[20px]"
+							src="/images/apple-watch.png"
+							width="148"
+							height="175"
+							alt=""
+						/>
+					</div>
+				</div>
+				<p className="text-[var(--color-light-black)] text-[36px] font-[700]">
 					Get 9 gift recommendations for friends
-				</h2>
-				<label htmlFor="email" className="hidden">
-					Enter your friend’s email
+				</p>
+			</div>
+			<div className="flex flex-col py-[24px] px-[20px]">
+				<label htmlFor="email" className="mb-[8px]">
+					Add your friend
 				</label>
 				<div className="relative">
 					{data?.avatar_url && (
@@ -74,13 +220,13 @@ export default function Home() {
 						</div>
 					)}
 				</div>
-				<label htmlFor="budget" className="mt-[32px]">
+				<label htmlFor="budget" className="mt-[24px] mb-[8px]">
 					How much would you like to spend?
 				</label>
 				<select
 					id="budget"
 					name="budget"
-					className="mt-[8px] w-full h-[49px] py-[10px] px-[15px] border border-[var(--color-light-black)] rounded-[8px] appearance-none bg-[url('/images/ico-chevron-down.svg')] bg-no-repeat bg-[position:calc(100%-8px)_center] bg-[length:24px_24px] pr-[32px]"
+					className="h-[49px] py-[10px] px-[15px] border border-[var(--color-light-black)] rounded-[8px] appearance-none bg-[url('/icons/ico-chevron-down.svg')] bg-no-repeat bg-[position:calc(100%-8px)_center] bg-[length:24px_24px] pr-[32px]"
 					value={budgetVal}
 					onChange={({ target }) => setBudgetVal(target.value)}
 				>
@@ -91,20 +237,18 @@ export default function Home() {
 				</select>
 				<button
 					className={clsx(
-						'self-end mt-auto w-full h-[48px] bg-[var(--color-light-black)] rounded-[8px] text-[var(--color-white)] cursor-pointer',
+						'mt-[32px] h-[48px] bg-[var(--color-light-black)] rounded-[8px] text-[var(--color-white)] cursor-pointer',
 						{ 'opacity-50': !data?.hash || !budgetVal }
 					)}
 					disabled={!data?.hash || !budgetVal}
-					onClick={() =>
-						router.push(`/gift/${data.hash}?budget=${budgetVal}`)
-					}
+					onClick={() => router.push(`/gift/${data.hash}?budget=${budgetVal}`)}
 				>
 					Get started
 				</button>
-				<div className="mt-[24px] text-center">
+				<div className="mt-[24px] text-[14px] text-center">
 					By continuing you agree to our terms
 				</div>
-			</main>
-		</div>
+			</div>
+		</main>
 	);
 }
