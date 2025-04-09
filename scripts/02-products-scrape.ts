@@ -1,5 +1,3 @@
-import Database from "better-sqlite3";
-import * as sqliteVec from "sqlite-vec";
 import yargs from "yargs/yargs";
 import { hideBin } from "yargs/helpers";
 import { readFileSync } from "node:fs";
@@ -7,67 +5,24 @@ import { z } from "zod";
 import batchPromises from "batch-promises";
 import axios from "axios";
 import { load as cheerio } from "cheerio";
-
-const ShopValidator = z.object({
-  name: z.string(),
-  url: z.string().url(),
-});
-
-type Shop = z.infer<typeof ShopValidator>;
-
-const ProductValidator = z.object({
-  productName: z.string(),
-  description: z.string(),
-  shopName: z.string(),
-  productUrl: z.string().url(),
-  imageUrl: z.string().url(),
-  priceMin: z.coerce.number().optional().nullable(),
-  priceMax: z.coerce.number().optional().nullable(),
-  currency: z.string().optional().nullable(),
-});
-
-type Product = z.infer<typeof ProductValidator>;
+import { Product, ProductSchema, Shop } from "@/products/types";
+import db from "@/products/db";
 
 const HEADERS = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
   'Accept-Language': 'en-US,en;q=0.9',
 };
 
-const db = new Database(`${import.meta.dirname}/../../db/products.db`);
-sqliteVec.load(db);
-
-const setupDb = () => {
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS products (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      product_name TEXT,
-      description TEXT,
-      shop_name TEXT,
-      product_url TEXT UNIQUE,
-      image_url TEXT,
-      price_min FLOAT,
-      price_max FLOAT,
-      currency TEXT
-    )
-  `);
-
-  db.exec(`
-    CREATE VIRTUAL TABLE IF NOT EXISTS product_vectors USING vec0(
-      product_id FLOAT,
-      product_embedding FLOAT[768]
-    );
-  `);
-};
-
 const readShops = async (filename: string) => {
   const content = await readFileSync(filename, 'utf-8')
     .split('\n')
     .map((line) => {
-      let [name, url] = line.split(',');
+      const parts = line.split(',');
 
-      if (!url?.startsWith('http')) {
-        url = `https://${url}`;
-      }
+      const name = parts[0];
+      let url = parts[1];
+
+      if (!url?.startsWith('http')) url = `https://${url}`;
 
       return { name, url };
     });
@@ -78,7 +33,7 @@ const readShops = async (filename: string) => {
         name: z.string(),
         url: z.string().url(),
       }).parse(shop);
-    } catch (error) {
+    } catch {
       return null;
     }
   }).filter((shop) => shop !== null);
@@ -141,31 +96,31 @@ const scrapeProductDetails = async (productUrl: string): Promise<{
       priceMax: price,
       currency,
     };
-  } catch (error) {
+  } catch {
     return { };
   }
 };
 
 const saveProduct = async (shop: Shop, product: Product) => {
-  const existingProduct = await db.prepare('SELECT id FROM products WHERE product_url = ?').all([product.productUrl]);
+  const existingProduct = await db.prepare('SELECT id FROM products WHERE productUrl = ?').all([product.productUrl]);
 
   if (existingProduct.length > 0) {
     db.prepare(`
       UPDATE products
-      SET product_name = :productName,
+      SET productName = :productName,
           description = :description,
-          shop_name = :shopName,
-          image_url = :imageUrl,
-          price_min = :priceMin,
-          price_max = :priceMax,
+          shopName = :shopName,
+          imageUrl = :imageUrl,
+          priceMin = :priceMin,
+          priceMax = :priceMax,
           currency = :currency
-      WHERE product_url = :productUrl
+      WHERE productUrl = :productUrl
     `).run(product);
 
     console.log(`[${shop.name}]: Updated product ${product.productName}`);
   } else {
     db.prepare(`
-      INSERT INTO products (product_name, description, shop_name, product_url, image_url, price_min, price_max, currency)
+      INSERT INTO products (productName, description, shopName, productUrl, imageUrl, priceMin, priceMax, currency)
       VALUES (:productName, :description, :shopName, :productUrl, :imageUrl, :priceMin, :priceMax, :currency)
     `).run(product);
 
@@ -173,10 +128,12 @@ const saveProduct = async (shop: Shop, product: Product) => {
   }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const saveProductData = async (shop: Shop, productData: any) => {
   const productName = productData.title?.rendered?.trim();
   const productUrl = productData.link;
 
+  // eslint-disable-next-line prefer-const
   let { description, imageUrl, priceMin, priceMax, currency } = await scrapeProductDetails(productUrl);
 
   if (!description && productData.excerpt?.rendered) {
@@ -184,7 +141,7 @@ const saveProductData = async (shop: Shop, productData: any) => {
     description = description.replace(/\s+/g, ' ').trim();
   }
 
-  const product = ProductValidator.parse({
+  const product = ProductSchema.parse({
     productName,
     description,
     shopName: shop.name,
@@ -202,7 +159,6 @@ const scrapeShop = async (shop: Shop) => {
   console.log(`Scraping ${shop.name}...`);
 
   let page = 1;
-  let productSaved = 0;
 
   while (true) {
     const apiUrl = new URL(`/wp-json/wp/v2/product?page=${page}&per_page=50`, shop.url).toString();
@@ -212,12 +168,12 @@ const scrapeShop = async (shop: Shop) => {
 
     try {
       response = await axios.get(apiUrl, { headers: HEADERS, timeout: 15000 });
-    } catch (error: any) {
-      if (error.response && ([400, 404].includes(error.response.status))) {
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response && ([400, 404].includes(error.response.status))) {
         break;
       }
 
-      console.log(`[${shop.name}]: API error: ${error.message}`);
+      console.log(`[${shop.name}]: API error: ${error}`);
 
       break;
     }
@@ -231,8 +187,6 @@ const scrapeShop = async (shop: Shop) => {
     for (const product of productData) {
       try {
         await saveProductData(shop, product);
-
-        productSaved += 1;
       } catch (error) {
         console.log(`[${shop.name}]: Error saving product: ${error}`);
       }
@@ -258,8 +212,6 @@ const argv = await yargs(hideBin(process.argv))
   .help()
   .alias('help', 'h')
   .argv;
-
-setupDb();
 
 const shops = await readShops(argv.csv);
 

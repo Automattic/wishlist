@@ -37,14 +37,28 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## Prepare the DB with products
 
-### 1. Run the scraper
+### 1. Build the db
 
-First you will need to run a scraper to build the database and fill it with products.
+First you will need to build the basic db structure.
+
+    $ tsx scripts/01-setup-db.ts
+
+### 2. Run the scraper
+
+Then you will need to run a scraper to build the database and fill it with products.
 You will need to supply a `shops.csv` file, where each line is a different shop (name,url).
 
-    $ tsx src/scraper/scrape.ts
+    $ tsx scripts/02-products-scrape.ts
 
 The command accepts 2 parameters:
 
  - `--workers` will tweak the concurrent shops to be scraped (default: `1`)
  - `--csv` can be used to supply a custom csv path (default: `shops.csv`)
+
+### 3. Run the prepare db script
+
+Next you need to run the script to prepare the db for vector search:
+
+    $ tsx scripts/03-products-prepare-vectors.ts
+
+This will take a bit of time, while it downloads the model for creating the embedding and calculates those too.

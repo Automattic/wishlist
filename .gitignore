@@ -42,3 +42,5 @@ next-env.d.ts
 
 *.db
 shops.csv
+
+local_cache
