@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+*.db
+shops.csv
+
+local_cache
+
+# PHPStorm IDE settings
+/.idea

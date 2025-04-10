@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { BaseQueryOptions, Product } from '../../types';
+import { BaseQueryOptions } from '../../types';
+import { DbProduct } from '@/products/types';
 
 const delay = ( ms: number ) => new Promise( resolve => setTimeout( resolve, ms ) );
 
-export const useRecommendedProducts = ( hash?: string, options?: BaseQueryOptions<Product[]> ) => {
+export const useRecommendedProducts = ( hash?: string, options?: BaseQueryOptions<DbProduct[]> ) => {
 	return useQuery( {
 		queryKey: [ 'products', hash ],
 		queryFn: async () => {
@@ -14,40 +15,60 @@ export const useRecommendedProducts = ( hash?: string, options?: BaseQueryOption
 	} );
 };
 
-const mockProducts: Product[] = [
+const mockProducts: DbProduct[] = [
 	{
 		id: 1,
-		name: 'USB-C 65W Charger',
-		image: 'https://images.mironet.cz/foto/3/96118195/cze_pl_Nabijecka-GaN-GravaStar-Alpha65-65W-zluta-43790_1.jpg',
-		rating: 4.5,
-		price: 59.95,
+		productName: 'USB-C 65W Charger',
+		description: 'USB-C 65W Charger',
+		shopName: 'Mironet',
+		productUrl: 'https://www.mironet.cz/nabijecka-gan-gravastar-alpha65-65w-zluta-43790',
+		imageUrl: 'https://images.mironet.cz/foto/3/96118195/cze_pl_Nabijecka-GaN-GravaStar-Alpha65-65W-zluta-43790_1.jpg',
+		priceMin: 59.95,
+		priceMax: 59.95,
+		currency: 'USD',
 	},
 	{
 		id: 2,
-		name: 'Product 02',
-		image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlndpwDalSNF8TzBG6T7kGv73l0IOReNJpKw&s',
-		rating: 4,
-		price: 10.9,
+		productName: 'Amazon Kindle',
+		description: 'Amazon Kindle',
+		shopName: 'Mironet',
+		productUrl: 'https://www.mironet.cz/nabijecka-gan-gravastar-alpha65-65w-zluta-43790',
+		imageUrl: '/images/amazon-kindle.jpg',
+		priceMin: 10.9,
+		priceMax: 10.9,
+		currency: 'USD',
 	},
 	{
 		id: 3,
-		name: 'Product 03',
-		image: 'https://karanzi.websites.co.in/obaju-turquoise/img/product-placeholder.png',
-		rating: 4,
-		price: 22.9,
+		productName: 'Sunglasses',
+		description: 'Sunglasses',
+		shopName: 'Mironet',
+		productUrl: 'https://www.mironet.cz/nabijecka-gan-gravastar-alpha65-65w-zluta-43790',
+		imageUrl: '/images/sun-glasses.webp',
+		priceMin: 22.9,
+		priceMax: 22.9,
+		currency: 'USD',
 	},
 	{
 		id: 4,
-		name: 'Product 04',
-		image: 'https://karanzi.websites.co.in/obaju-turquoise/img/product-placeholder.png',
-		rating: 4,
-		price: 11.9,
+		productName: 'Perfume',
+		description: 'Perfume',
+		shopName: 'Mironet',
+		productUrl: 'https://www.mironet.cz/nabijecka-gan-gravastar-alpha65-65w-zluta-43790',
+		imageUrl: '/images/perfume.jpg',
+		priceMin: 11.9,
+		priceMax: 11.9,
+		currency: 'USD',
 	},
 	{
 		id: 5,
-		name: 'Product 05',
-		image: 'https://karanzi.websites.co.in/obaju-turquoise/img/product-placeholder.png',
-		rating: 4,
-		price: 34.9,
+		productName: 'AirPods',
+		description: 'AirPods',
+		shopName: 'Mironet',
+		productUrl: 'https://www.mironet.cz/nabijecka-gan-gravastar-alpha65-65w-zluta-43790',
+		imageUrl: '/images/apple-airpods.jpeg',
+		priceMin: 34.9,
+		priceMax: 34.9,
+		currency: 'USD',
 	},
 ];
