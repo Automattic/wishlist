@@ -1,60 +1,25 @@
-const mockProducts = [
-	{
-		id: '1',
-		productName: 'USB-C 65W Charger',
-		description: 'USB-C 65W Charger',
-		shopName: 'Mironet',
-		productUrl: 'https://www.mironet.cz/nabijecka-gan-gravastar-alpha65-65w-zluta-43790',
-		imageUrl: 'https://images.mironet.cz/foto/3/96118195/cze_pl_Nabijecka-GaN-GravaStar-Alpha65-65W-zluta-43790_1.jpg',
-		priceMin: 59.95,
-		priceMax: 59.95,
-		currency: 'USD',
-	},
-	{
-		id: '2',
-		productName: 'Amazon Kindle',
-		description: 'Amazon Kindle',
-		shopName: 'Mironet',
-		productUrl: 'https://www.mironet.cz/nabijecka-gan-gravastar-alpha65-65w-zluta-43790',
-		imageUrl: '/images/amazon-kindle.jpg',
-		priceMin: 10.9,
-		priceMax: 10.9,
-		currency: 'USD',
-	},
-	{
-		id: '3',
-		productName: 'Sunglasses',
-		description: 'Sunglasses',
-		shopName: 'Mironet',
-		productUrl: 'https://www.mironet.cz/nabijecka-gan-gravastar-alpha65-65w-zluta-43790',
-		imageUrl: '/images/sun-glasses.webp',
-		priceMin: 22.9,
-		priceMax: 22.9,
-		currency: 'USD',
-	},
-	{
-		id: '4',
-		productName: 'Perfume',
-		description: 'Perfume',
-		shopName: 'Mironet',
-		productUrl: 'https://www.mironet.cz/nabijecka-gan-gravastar-alpha65-65w-zluta-43790',
-		imageUrl: '/images/perfume.jpg',
-		priceMin: 11.9,
-		priceMax: 11.9,
-		currency: 'USD',
-	},
-	{
-		id: '5',
-		productName: 'AirPods',
-		description: 'AirPods',
-		shopName: 'Mironet',
-		productUrl: 'https://www.mironet.cz/nabijecka-gan-gravastar-alpha65-65w-zluta-43790',
-		imageUrl: '/images/apple-airpods.jpeg',
-		priceMin: 34.9,
-		priceMax: 34.9,
-		currency: 'USD',
-	},
-];
+import { findProducts } from "@/products/queries";
+import { DbProduct } from "@/products/types";
+
+const getGravatarInterests = async ( emailHash: string ): Promise<{name: string, id: number}[]> => {
+	// Get known interests from Gravatar profile.
+	const response = await fetch( `https://api.gravatar.com/v3/profiles/${ emailHash }` );
+	if ( ! response.ok ) {
+		throw new Error( 'Failed to fetch Gravatar profile' );
+	}
+	const data = await response.json();
+	const profileInterests = data.interests || [];
+
+	// Get inferred interests.
+	const inferredInterestsResponse = await fetch( `https://api.gravatar.com/v3/profiles/${ emailHash }/inferred-interests` );
+	if ( ! inferredInterestsResponse.ok ) {
+		throw new Error( 'Failed to fetch inferred interests' );
+	}
+	const inferredInterestsData = await inferredInterestsResponse.json();
+
+	// Combine known and inferred interests.
+	return [ ...new Set( [ ...profileInterests, ...inferredInterestsData ] ) ];
+}
 
 /**
  * API route handler that returns product recommendations based on email hash
@@ -68,5 +33,23 @@ export async function GET( request: Request ) {
 		return Response.json( { error: 'Missing emailHash parameter' }, { status: 400 } );
 	}
 
-	return Response.json( { emailHash, recommendations: mockProducts } );
+	try {
+		const interests = await getGravatarInterests( emailHash );
+		const foundProducts = await findProducts( interests.map(i => i.name) );
+
+		// Keep only products with imageUrl starting with https
+		const validProducts = foundProducts.filter( ( product: DbProduct ) => {
+			return product.imageUrl && product.imageUrl.startsWith( 'https' );
+		} );
+
+		// Get maximum 20 products (randomly)
+		const twentyRandomProducts = validProducts.sort( () => Math.random() - 0.5 ).slice( 0, 20 );
+
+		console.log("Found " + validProducts.length + " products using maximum 20 randomly");
+
+		return Response.json( { emailHash, recommendations: twentyRandomProducts } );
+	} catch ( error ) {
+		console.error( 'Error fetching recommendations:', error );
+		return Response.json( { error: 'Failed to fetch interests from Gravatar' }, { status: 500 } );
+	}
 }

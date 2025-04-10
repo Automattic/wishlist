@@ -20,7 +20,7 @@ type ProductVectorResult = {
   distance: number;
 }
 
-export const findProducts = async (interests: string[]) => {
+export const findProducts = async (interests: string[]): Promise<DbProduct[]> => {
   const embeddings = embeddingModel.embed(interests);
 
   let results: ProductVectorResult[] = [];
