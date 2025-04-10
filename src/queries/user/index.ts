@@ -11,6 +11,11 @@ export const useGravatarUser = ( emailOrHash: string, options?: BaseQueryOptions
 		queryKey: [ 'user', hash ],
 		queryFn: async () => {
 			const response = await fetch( `https://api.gravatar.com/v3/profiles/${ hash }` );
+
+			if ( ! response.ok ) {
+				throw new Error( 'Failed to fetch user data' );
+			}
+
 			return response.json();
 		},
 		...options,

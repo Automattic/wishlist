@@ -24,6 +24,14 @@
 	transform: translateZ(0);
 }
 
+.product-card-wrapper {
+	border-radius: 16px;
+	box-shadow: 0px 64px 54px 0px rgba(0, 0, 0, 0.07),
+				0px 19.294px 16.279px 0px rgba(0, 0, 0, 0.05),
+				0px 8.014px 6.762px 0px rgba(0, 0, 0, 0.04),
+				0px 2.898px 2.446px 0px rgba(0, 0, 0, 0.02);
+}
+
 .product-card {
 	position: absolute;
 	left: 0;
@@ -39,8 +47,5 @@
 	cursor: grab;
 	user-select: none;
 	will-change: transform;
-	box-shadow: 0px 64px 54px 0px rgba(0, 0, 0, 0.07), 
-				0px 19.294px 16.279px 0px rgba(0, 0, 0, 0.05), 
-				0px 8.014px 6.762px 0px rgba(0, 0, 0, 0.04), 
-				0px 2.898px 2.446px 0px rgba(0, 0, 0, 0.02);
+	overflow: hidden;
 }

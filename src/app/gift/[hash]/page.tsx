@@ -4,156 +4,77 @@ import { useParams } from 'next/navigation';
 import { useGravatarUser } from '@/queries/user';
 import { useRecommendedProducts } from '@/queries/product';
 import Image from 'next/image';
-import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
-import { useState, useRef } from 'react';
+import React, { useState } from 'react';
+import ProductCard from '@/components/product-card';
+import { User } from '@/types';
+import { DbProduct } from '@/products/types';
 
-type WrapperParams = {
+type MainContentProps = {
 	children: React.ReactNode;
+	currentCardIndex: number;
+	isLoadingUser: boolean;
+	isLoadingProducts: boolean;
+	userData: User;
 }
 
-const Wrapper = ( { children }: WrapperParams ) => {
+const MainContent = ( {
+	children,
+	currentCardIndex,
+	isLoadingProducts,
+	isLoadingUser,
+	userData,
+}: MainContentProps ) => {
+	// Background colors array
+	const backgroundColors = [ '#FDE599', '#C7C7C7', '#DBB6B9', '#94D3E6' ];
+	const currentBackgroundColor = backgroundColors[ currentCardIndex % backgroundColors.length ];
+	const isLoading = isLoadingUser || isLoadingProducts;
+
 	return (
-		<div className="h-full flex flex-col items-center justify-center gap-5">
+		<div
+			className="h-full overflow-hidden flex flex-col px-5 py-4 pb-8 relative"
+			style={ {
+				backgroundColor: currentBackgroundColor,
+				transition: 'background-color 0.1s ease',
+			} }
+		>
+			<div className="flex items-center justify-between mb-4">
+				<h1 className="text-2xl font-bold text-[var(--color-light-black)]">WiSH</h1>
+				{ ( ! isLoading && userData ) && (
+					<Image
+						src={ `${ userData.avatar_url }?s=256` }
+						alt={ userData.display_name }
+						className="rounded-full w-[36px] h-[36px]"
+						width={ 36 }
+						height={ 36 }
+					/>
+				) }
+			</div>
 			{ children }
 		</div>
 	);
 };
 
-type ProductCardProps = {
-	product: {
-		id: number;
-		imageUrl: string;
-		productName: string;
-		priceMin?: number | null;
-		currency?: string | null;
-	};
-	onSwipeLeft?: () => void;
-	onSwipeRight?: () => void;
-	style?: React.CSSProperties;
-};
+type LoaderWrapperProps = Omit<MainContentProps, 'currentCardIndex'>
 
-const ProductCard = ( { product, onSwipeLeft, onSwipeRight, style }: ProductCardProps ) => {
-	const cardRef = useRef<HTMLDivElement>( null );
-	const [ isDragging, setIsDragging ] = useState( false );
-	const [ isExiting, setIsExiting ] = useState( false );
-
-	// Motion values for the card's position
-	const x = useMotionValue( 0 );
-	const opacity = useTransform( x, [ -window.innerWidth, 0, window.innerWidth ], [ 0, 1, 0 ] );
-
-	const handleDragEnd = async () => {
-		const xValue = x.get();
-		const threshold = 100;
-
-		if ( xValue > threshold ) {
-			// Swiped right
-			setIsExiting( true );
-			await animate( x, window.innerWidth * 1.5, { duration: 0.3 } );
-			onSwipeRight?.();
-		} else if ( xValue < -threshold ) {
-			// Swiped left
-			setIsExiting( true );
-			await animate( x, -window.innerWidth * 1.5, { duration: 0.3 } );
-			onSwipeLeft?.();
-		} else {
-			// Return to center
-			await animate( x, 0, {
-				type: 'spring',
-				stiffness: 400,
-				damping: 30,
-			} );
-		}
-	};
-
+const LoaderWrapper = ( { children, isLoadingProducts, isLoadingUser, userData }: LoaderWrapperProps ) => {
 	return (
-		<motion.div
-			ref={ cardRef }
-			drag="x"
-			dragDirectionLock
-			dragConstraints={ { left: 0, right: 0 } }
-			dragElastic={ 1 }
-			onDragStart={ () => setIsDragging( true ) }
-			onDragEnd={ () => {
-				setIsDragging( false );
-				handleDragEnd();
-			} }
-			style={ {
-				...style,
-				x,
-				opacity: isExiting ? opacity : 1,
-			} }
-			className={ `product-card ${ isDragging ? 'cursor-grabbing' : '' }` }
-			whileTap={ { scale: 1.02 } }
-			initial={ { scale: 0.95, opacity: 0 } }
-			animate={ { scale: 1, opacity: 1 } }
-			exit={ { scale: 0.95, opacity: 0 } }
-			transition={ { duration: 0.2 } }
+		<MainContent
+			currentCardIndex={ 0 }
+			isLoadingUser={ isLoadingUser }
+			isLoadingProducts={ isLoadingProducts }
+			userData={ userData }
 		>
-			<div className="flex-grow flex flex-col items-center justify-center">
-				<Image
-					src={ product.imageUrl }
-					alt={ product.productName }
-					width={ 305 }
-					height={ 415 }
-					className="w-[415px] h-[305px] object-contain"
-				/>
+			<div className="h-full flex flex-col items-center justify-center gap-5">
+				{ children }
 			</div>
-			<div className="flex flex-col">
-				<div className="flex gap-2 py-2">
-					{ [ ...Array( 5 ) ].map( ( _, index ) => (
-						<Image
-							key={ index }
-							className="w-[16px] h-[16px]"
-							src="/icons/ico-star.svg"
-							width="16"
-							height="16"
-							alt=""
-						/>
-					) ) }
-				</div>
-				<span className="text-2xl">{ product.productName }</span>
-				{ product.priceMin ? (
-					<span className="text-2xl font-bold">{ product.priceMin.toLocaleString( 'en-EN', {
-						style: 'currency',
-						currency: product.currency ?? 'USD',
-					} ) }</span>
-				) : null }
-				<div className="flex gap-4 mt-4">
-					<motion.button
-						className="flex-1 border-1 rounded-lg h-12"
-						whileHover={ { scale: 1.02 } }
-						whileTap={ { scale: 0.98 } }
-						onClick={ async () => {
-							await animate( x, -window.innerWidth * 1.5, { duration: 0.3 } );
-							onSwipeLeft?.();
-						} }
-					>
-						Not for me
-					</motion.button>
-					<motion.button
-						className="flex-1 bg-black text-white rounded-lg"
-						whileHover={ { scale: 1.02 } }
-						whileTap={ { scale: 0.98 } }
-						onClick={ async () => {
-							await animate( x, window.innerWidth * 1.5, { duration: 0.3 } );
-							onSwipeRight?.();
-						} }
-					>
-						Add to wishlist
-					</motion.button>
-				</div>
-			</div>
-		</motion.div>
+		</MainContent>
 	);
 };
 
 export default function GiftPage() {
 	const { hash } = useParams<{ hash: string }>();
 	const [ currentCardIndex, setCurrentCardIndex ] = useState( 0 );
-
-	// Background colors array
-	const backgroundColors = [ '#FDE599', '#C7C7C7', '#DBB6B9', '#94D3E6' ];
-	const currentBackgroundColor = backgroundColors[ currentCardIndex % backgroundColors.length ];
+	const [ selectedProducts, setSelectedProducts ] = useState<DbProduct[]>( [] );
 
 	const {
 		data: userData,
@@ -171,82 +92,107 @@ export default function GiftPage() {
 
 	// NOTE: A very good case to use React Suspense (if you want).
 	if ( isFetchingUser ) {
-		return <Wrapper>
-			<div className="rounded-full w-[120px] h-[120px] bg-gray-400 mb-6 animate-pulse" />
-			<div className="mb-20 text-[15px] opacity-50">
-				Fetching user data
-			</div>
-		</Wrapper>;
+		return (
+			<LoaderWrapper
+				isLoadingProducts={ isFetchingProducts }
+				isLoadingUser={ isFetchingUser }
+				userData={ userData }
+			>
+				<div className="rounded-full w-[120px] h-[120px] bg-gray-400 mb-6 animate-pulse" />
+				<div className="mb-20 text-[15px] opacity-50">
+					Fetching user data
+				</div>
+			</LoaderWrapper>
+		);
 	}
 
 	if ( isFetchUserError ) {
-		return <div>User not found</div>;
-	}
-
-	if ( ! userData ) {
-		return null;
+		return (
+			<LoaderWrapper
+				isLoadingProducts={ isFetchingProducts }
+				isLoadingUser={ isFetchingUser }
+				userData={ userData }
+			>
+				<div>User not found</div>
+			</LoaderWrapper>
+		);
 	}
 
 	if ( isFetchingProducts ) {
-		return <Wrapper>
-			<Image
-				src={ `${ userData.avatar_url }?s=256` }
-				alt={ userData.display_name }
-				className="rounded-full w-[120px] h-[120px] mb-6"
-				width={ 120 }
-				height={ 120 }
-			/>
-			<div className="mb-20 text-[15px] opacity-50">
-				Studying { userData.display_name }
-			</div>
-		</Wrapper>;
+		return (
+			<LoaderWrapper
+				isLoadingProducts={ isFetchingProducts }
+				isLoadingUser={ isFetchingUser }
+				userData={ userData }
+			>
+				<Image
+					src={ `${ userData.avatar_url }?s=256` }
+					alt={ userData.display_name }
+					className="rounded-full w-[120px] h-[120px] mb-6"
+					width={ 120 }
+					height={ 120 }
+				/>
+				<div className="mb-20 text-[15px] opacity-50">
+					Studying { userData.display_name }
+				</div>
+			</LoaderWrapper>
+		);
 	}
 
 	if ( isFetchProductsError ) {
-		return <div>Unable to fetch recommended products</div>;
+		return (
+			<LoaderWrapper
+				isLoadingProducts={ isFetchingProducts }
+				isLoadingUser={ isFetchingUser }
+				userData={ userData }
+			>
+				<div>Unable to fetch recommended products</div>
+			</LoaderWrapper>
+		);
 	}
 
 	if ( ! products?.length ) {
-		return <div>No products available</div>;
+		return (
+			<LoaderWrapper
+				isLoadingProducts={ isFetchingProducts }
+				isLoadingUser={ isFetchingUser }
+				userData={ userData }
+			>
+				<div>No products available</div>
+			</LoaderWrapper>
+		);
 	}
 
-	const handleSwipeLeft = ( productId: number ) => {
-		console.log( 'Swiped left on product:', productId );
+	const handleSwipeLeft = ( product: DbProduct ) => {
+		console.log( 'Swiped left on product:', product.id );
 		// Add your "Not for me" logic here
 		setCurrentCardIndex( prev => Math.min( prev + 1, ( products?.length ?? 1 ) - 1 ) );
 	};
 
-	const handleSwipeRight = ( productId: number ) => {
-		console.log( 'Swiped right on product:', productId );
+	const handleSwipeRight = ( product: DbProduct ) => {
+		console.log( 'Swiped right on product:', product.id );
 		// Add your "Add to wishlist" logic here
 		setCurrentCardIndex( prev => Math.min( prev + 1, ( products?.length ?? 1 ) - 1 ) );
+
+		setSelectedProducts( ( currentProducts ) => {
+			return [ ...currentProducts, product ];
+		} );
 	};
 
 	return (
-		<div
-			className="h-full overflow-hidden flex flex-col px-5 py-4 pb-8 relative"
-			style={ {
-				backgroundColor: currentBackgroundColor,
-				transition: 'background-color 0.1s ease',
-			} }
+		<MainContent
+			currentCardIndex={ currentCardIndex }
+			isLoadingUser={ isFetchingUser }
+			isLoadingProducts={ isFetchingProducts }
+			userData={ userData }
 		>
-			<div className="flex items-center justify-between mb-4">
-				<h1 className="text-2xl font-bold text-[var(--color-light-black)]">WiSH</h1>
-				<Image
-					src={ `${ userData.avatar_url }?s=256` }
-					alt={ userData.display_name }
-					className="rounded-full w-[36px] h-[36px]"
-					width={ 36 }
-					height={ 36 }
-				/>
-			</div>
-			<div className="relative h-full">
+			<div className="relative h-full product-card-wrapper">
 				{ products.map( ( product, index ) => (
 					<ProductCard
 						key={ product.id }
 						product={ product }
-						onSwipeLeft={ () => handleSwipeLeft( product.id ) }
-						onSwipeRight={ () => handleSwipeRight( product.id ) }
+						onSwipeLeft={ () => handleSwipeLeft( product ) }
+						onSwipeRight={ () => handleSwipeRight( product ) }
 						style={ {
 							zIndex: products.length - index,
 							opacity: index === currentCardIndex ? 1 : 0,
@@ -256,16 +202,54 @@ export default function GiftPage() {
 					/>
 				) ) }
 			</div>
-			<div className="h-[72px] flex items-center justify-center gap-2 mt-6">
-				<span className="max-w-[170px] text-center">Swipe any card right to add it to your wishlist</span>
-				<Image
-					src="/images/styled-arrow-right.svg"
-					className="w-[24px] h-[17px]"
-					width="24"
-					height="17"
-					alt=""
-				/>
+			<div className="h-[72px] flex items-center justify-center shrink-0 gap-2 mt-6">
+				{ selectedProducts.length === 0 ? (
+					<>
+						<span className="max-w-[170px] text-center">Swipe any card right to add it to your wishlist</span>
+						<Image
+							src="/images/styled-arrow-right.svg"
+							className="w-[24px] h-[17px]"
+							width="24"
+							height="17"
+							alt=""
+						/>
+					</>
+				) : (
+					<>
+						<div className="w-full flex">
+							{ selectedProducts.map( ( product, index ) => {
+								return (
+									<div
+										key={ product.id }
+										className="w-[72px] h-[72px] rounded-full overflow-hidden bg-white border boder-black"
+										style={ index ? { marginLeft: '-24px' } : undefined }
+									>
+										<Image
+											src={ product.imageUrl }
+											className="w-[72px] h-[72px] object-cover"
+											width={ 72 }
+											height={ 72 }
+											alt=""
+										/>
+									</div>
+								);
+							} ) }
+						</div>
+						<button className="flex items-center gap-1 shrink-0 cursor-pointer">
+							<span>See wishlist</span>
+							<Image
+								src="/icons/ico-arrow-right.svg"
+								className="w-[24px] h-[24px]"
+								width={ 24 }
+								height={ 24 }
+								alt=""
+							/>
+						</button>
+					</>
+				) }
+
+
 			</div>
-		</div>
+		</MainContent>
 	);
 }
