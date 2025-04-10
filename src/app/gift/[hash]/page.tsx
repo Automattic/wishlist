@@ -148,15 +148,15 @@ const Wishlist = ( {
 	userData: User,
 	currentCardIndex: number,
 } ) => {
-	const firstName = userData.display_name.split(' ')[0];
-	
+	const firstName = userData.display_name.split( ' ' )[ 0 ];
+
 	return (
 		<div className="flex flex-col h-full">
 			<h2 className="text-black text-[32px] font-bold mt-3 mb-2">
-				These are your {selectedProducts.length} picks for {firstName}
+				These are your { selectedProducts.length } picks for { firstName }
 			</h2>
 			<p className="text-black text-xl mb-8">
-				It only took us {currentCardIndex} products to get here, good job.
+				It only took us { currentCardIndex } products to get here, good job.
 			</p>
 			<div className="flex-1 overflow-auto">
 				<div className="grid grid-cols-3 gap-6 max-w-[348px] mx-auto">
