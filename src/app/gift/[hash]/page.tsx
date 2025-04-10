@@ -34,7 +34,7 @@ const MainContent = ( {
 			className="h-full overflow-hidden flex flex-col px-5 py-4 pb-8 relative"
 			style={ {
 				backgroundColor: currentBackgroundColor,
-				transition: 'background-color 0.1s ease',
+				transition: 'background-color 0.3s ease',
 			} }
 		>
 			<div className="flex items-center justify-between mb-4">
@@ -71,10 +71,120 @@ const LoaderWrapper = ( { children, isLoadingProducts, isLoadingUser, userData }
 	);
 };
 
+const Footer = ( {
+	selectedProducts,
+	onSeeWishlist,
+}: {
+	selectedProducts: DbProduct[],
+	onSeeWishlist: () => void
+} ) => {
+	return (
+		<div className="h-[72px] flex items-center justify-center shrink-0 gap-2 mt-6">
+			{ selectedProducts.length === 0 ? (
+				<>
+					<span className="max-w-[170px] text-center">Swipe any card right to add it to your wishlist</span>
+					<Image
+						src="/images/styled-arrow-right.svg"
+						className="w-[24px] h-[17px]"
+						width="24"
+						height="17"
+						alt=""
+					/>
+				</>
+			) : (
+				<>
+					<div className="w-full flex">
+						{ selectedProducts.slice( 0, 3 ).map( ( product, index ) => {
+							return (
+								<div
+									key={ product.id }
+									className="w-[72px] h-[72px] rounded-full overflow-hidden bg-white border boder-black"
+									style={ index ? { marginLeft: '-24px' } : undefined }
+								>
+									<Image
+										src={ product.imageUrl }
+										className="w-[72px] h-[72px] object-cover"
+										width={ 72 }
+										height={ 72 }
+										alt=""
+									/>
+								</div>
+							);
+						} ) }
+						{ selectedProducts.length > 3 && (
+							<div
+								className="w-[72px] h-[72px] rounded-full overflow-hidden bg-white border border-black flex items-center justify-center"
+								style={ { marginLeft: '-24px' } }
+							>
+								<span className="text-xl font-bold">+{ selectedProducts.length - 3 }</span>
+							</div>
+						) }
+					</div>
+					<button
+						className="flex items-center gap-1 shrink-0 cursor-pointer"
+						onClick={ onSeeWishlist }
+					>
+						<span>See wishlist</span>
+						<Image
+							src="/icons/ico-arrow-right.svg"
+							className="w-[24px] h-[24px]"
+							width={ 24 }
+							height={ 24 }
+							alt=""
+						/>
+					</button>
+				</>
+			) }
+		</div>
+	);
+};
+
+const Wishlist = ( {
+	selectedProducts,
+	userData,
+	currentCardIndex,
+}: {
+	selectedProducts: DbProduct[],
+	userData: User,
+	currentCardIndex: number,
+} ) => {
+	const firstName = userData.display_name.split(' ')[0];
+	
+	return (
+		<div className="flex flex-col h-full">
+			<h2 className="text-black text-[32px] font-bold mt-3 mb-2">
+				These are your {selectedProducts.length} picks for {firstName}
+			</h2>
+			<p className="text-black text-xl mb-8">
+				It only took us {currentCardIndex} products to get here, good job.
+			</p>
+			<div className="flex-1 overflow-auto">
+				<div className="grid grid-cols-3 gap-6 max-w-[348px] mx-auto">
+					{ selectedProducts.map( ( product ) => (
+						<div
+							key={ product.id }
+							className="aspect-square w-full max-w-[100px] rounded-full overflow-hidden bg-white border border-black mx-auto"
+						>
+							<Image
+								src={ product.imageUrl }
+								className="w-full h-full object-cover"
+								width={ 100 }
+								height={ 100 }
+								alt={ product.productName }
+							/>
+						</div>
+					) ) }
+				</div>
+			</div>
+		</div>
+	);
+};
+
 export default function GiftPage() {
 	const { hash } = useParams<{ hash: string }>();
 	const [ currentCardIndex, setCurrentCardIndex ] = useState( 0 );
 	const [ selectedProducts, setSelectedProducts ] = useState<DbProduct[]>( [] );
+	const [ isWishlistOpen, setIsWishlistOpen ] = useState( false );
 
 	const {
 		data: userData,
@@ -163,19 +273,23 @@ export default function GiftPage() {
 		);
 	}
 
-	const handleSwipeLeft = ( product: DbProduct ) => {
-		console.log( 'Swiped left on product:', product.id );
+	const handleSwipeLeft = () => {
 		// Add your "Not for me" logic here
 		setCurrentCardIndex( prev => Math.min( prev + 1, ( products?.length ?? 1 ) - 1 ) );
 	};
 
 	const handleSwipeRight = ( product: DbProduct ) => {
-		console.log( 'Swiped right on product:', product.id );
 		// Add your "Add to wishlist" logic here
 		setCurrentCardIndex( prev => Math.min( prev + 1, ( products?.length ?? 1 ) - 1 ) );
 
 		setSelectedProducts( ( currentProducts ) => {
-			return [ ...currentProducts, product ];
+			const newProducts = [ product, ...currentProducts ];
+
+			if ( newProducts.length >= 9 ) {
+				setIsWishlistOpen( true );
+			}
+
+			return newProducts;
 		} );
 	};
 
@@ -186,70 +300,36 @@ export default function GiftPage() {
 			isLoadingProducts={ isFetchingProducts }
 			userData={ userData }
 		>
-			<div className="relative h-full product-card-wrapper">
-				{ products.map( ( product, index ) => (
-					<ProductCard
-						key={ product.id }
-						product={ product }
-						onSwipeLeft={ () => handleSwipeLeft( product ) }
-						onSwipeRight={ () => handleSwipeRight( product ) }
-						style={ {
-							zIndex: products.length - index,
-							opacity: index === currentCardIndex ? 1 : 0,
-							transform: `scale(${ index === currentCardIndex ? 1 : 0.95 })`,
-							pointerEvents: index === currentCardIndex ? 'auto' : 'none',
+			{ isWishlistOpen ? (
+				<Wishlist
+					selectedProducts={ selectedProducts }
+					userData={ userData }
+					currentCardIndex={ currentCardIndex }
+				/>
+			) : (
+				<>
+					<div className="relative h-full product-card-wrapper">
+						{ products.map( ( product, index ) => (
+							<ProductCard
+								key={ product.id }
+								product={ product }
+								onSwipeLeft={ () => handleSwipeLeft() }
+								onSwipeRight={ () => handleSwipeRight( product ) }
+								style={ {
+									zIndex: products.length - index,
+									pointerEvents: index === currentCardIndex ? 'auto' : 'none',
+								} }
+							/>
+						) ) }
+					</div>
+					<Footer
+						selectedProducts={ selectedProducts }
+						onSeeWishlist={ () => {
+							setIsWishlistOpen( true );
 						} }
 					/>
-				) ) }
-			</div>
-			<div className="h-[72px] flex items-center justify-center shrink-0 gap-2 mt-6">
-				{ selectedProducts.length === 0 ? (
-					<>
-						<span className="max-w-[170px] text-center">Swipe any card right to add it to your wishlist</span>
-						<Image
-							src="/images/styled-arrow-right.svg"
-							className="w-[24px] h-[17px]"
-							width="24"
-							height="17"
-							alt=""
-						/>
-					</>
-				) : (
-					<>
-						<div className="w-full flex">
-							{ selectedProducts.map( ( product, index ) => {
-								return (
-									<div
-										key={ product.id }
-										className="w-[72px] h-[72px] rounded-full overflow-hidden bg-white border boder-black"
-										style={ index ? { marginLeft: '-24px' } : undefined }
-									>
-										<Image
-											src={ product.imageUrl }
-											className="w-[72px] h-[72px] object-cover"
-											width={ 72 }
-											height={ 72 }
-											alt=""
-										/>
-									</div>
-								);
-							} ) }
-						</div>
-						<button className="flex items-center gap-1 shrink-0 cursor-pointer">
-							<span>See wishlist</span>
-							<Image
-								src="/icons/ico-arrow-right.svg"
-								className="w-[24px] h-[24px]"
-								width={ 24 }
-								height={ 24 }
-								alt=""
-							/>
-						</button>
-					</>
-				) }
-
-
-			</div>
+				</>
+			) }
 		</MainContent>
 	);
 }
