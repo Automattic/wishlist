@@ -1,16 +1,3 @@
-export type RecommendedProduct = {
-  id: string;
-  name: string;
-  description: string;
-  imageUrl: string;
-  price: number;
-};
-
-export type RecommendationResponse = {
-  emailHash: string;
-  recommendations: RecommendedProduct[];
-};
-
 export type ProductAction = 'wishlist' | 'discard';
 
 export type ProductActionRequest = {
@@ -25,4 +12,4 @@ export type ProductActionResponse = {
   action: ProductAction;
   success: boolean;
   timestamp: string;
-}; 
+};
