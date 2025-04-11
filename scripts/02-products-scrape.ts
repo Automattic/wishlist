@@ -2,7 +2,7 @@ import yargs from "yargs/yargs";
 import { hideBin } from "yargs/helpers";
 import { readFileSync } from "node:fs";
 import { z } from "zod";
-import batchPromises from "batch-promises";
+import pLimit from "p-limit";
 import axios from "axios";
 import { load as cheerio } from "cheerio";
 import { Product, ProductSchema, Shop } from "@/products/types";
@@ -74,12 +74,29 @@ const scrapeProductDetails = async (productUrl: string): Promise<{
       description = ogDescription.attr('content');
     }
 
+    if (!description) {
+      const descriptionElement = $('.woocommerce-product-details__short-description');
+      if (descriptionElement.length && descriptionElement.text()) {
+        description = descriptionElement.text();
+      }
+    }
+
     let price = null;
     const priceElement = $('meta[property="product:price:amount"]');
     if (priceElement.length && priceElement.attr('content')) {
       price = parseFloat(priceElement.attr('content') ?? '');
       if (Number.isNaN(price)) {
         price = null;
+      }
+    }
+
+    if (price === null) {
+      const priceElement = $('.woocommerce-Price-amount');
+      if (priceElement.length && priceElement.text()) {
+        price = parseFloat(priceElement.text().replace('$', ''));
+        if (Number.isNaN(price)) {
+          price = null;
+        }
       }
     }
 
@@ -130,7 +147,12 @@ const saveProduct = async (shop: Shop, product: Product) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const saveProductData = async (shop: Shop, productData: any) => {
-  const productName = productData.title?.rendered?.trim();
+  let productName = productData.title?.rendered?.trim();
+
+  if (productName) {
+    productName = cheerio(`<div>${productName}</div>`)('div').text().trim();
+  }
+
   const productUrl = productData.link;
 
   // eslint-disable-next-line prefer-const
@@ -217,4 +239,6 @@ const shops = await readShops(argv.csv);
 
 console.log(`Found ${shops.length} shops`);
 
-await batchPromises(argv.workers, shops, scrapeShop);
+const limit = pLimit(argv.workers);
+
+await Promise.all(shops.map((shop) => limit(() => scrapeShop(shop))));

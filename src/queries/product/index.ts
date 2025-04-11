@@ -10,13 +10,14 @@ export const useRecommendedProducts = ( hash?: string, options?: BaseQueryOption
 				return [];
 			}
 
-			const response = await fetch( `/api/recommendations?emailHash=${hash}` );
+			const response = await fetch( `/api/products?hash=${hash}` );
 			if ( !response.ok ) {
-				throw new Error( 'Failed to fetch recommendations' );
+				throw new Error( 'Failed to fetch hash' );
 			}
 
 			const data = await response.json();
-			return data.recommendations;
+
+			return data.products;
 		},
 		...options,
 	} );
