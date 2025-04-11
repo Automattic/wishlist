@@ -9,7 +9,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Hash is required" }, { status: 400 });
   }
 
-  const products = await findProducts(["running", "bread"])
+  const response = await fetch( `https://api.gravatar.com/v3/profiles/${ hash }` );
+  const data = await response.json();
+
+  const products = await findProducts(data.interests ?? ["running", "bread"])
 
   return NextResponse.json({ products });
 }

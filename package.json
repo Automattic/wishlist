@@ -22,6 +22,7 @@
     "js-sha256": "^0.11.0",
     "lodash.debounce": "^4.0.8",
     "next": "15.2.4",
+    "p-limit": "^6.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sqlite-vec": "^0.1.7-alpha.2",
