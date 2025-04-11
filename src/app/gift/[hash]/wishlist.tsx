@@ -8,7 +8,7 @@ type WishlistProps = {
 	currentCardIndex: number;
 }
 
-export const Wishlist = ( {
+const Wishlist = ( {
 	selectedProducts,
 	userData,
 	currentCardIndex,
@@ -26,9 +26,11 @@ export const Wishlist = ( {
 			<div className="flex-1 overflow-auto">
 				<div className="grid grid-cols-3 gap-6 max-w-[348px] mx-auto">
 					{ selectedProducts.map( ( product ) => (
-						<div
+						<a
 							key={ product.id }
 							className="aspect-square w-full max-w-[100px] rounded-full overflow-hidden bg-white border border-black mx-auto"
+							href={ product.productUrl }
+							target="_blank"
 						>
 							<Image
 								src={ product.imageUrl }
@@ -37,10 +39,12 @@ export const Wishlist = ( {
 								height={ 100 }
 								alt={ product.productName }
 							/>
-						</div>
+						</a>
 					) ) }
 				</div>
 			</div>
 		</div>
 	);
-}; 
+};
+
+export default Wishlist;

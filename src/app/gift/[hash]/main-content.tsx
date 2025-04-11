@@ -9,7 +9,7 @@ type MainContentProps = {
 	userData: User;
 }
 
-export const MainContent = ( {
+const MainContent = ( {
 	children,
 	currentCardIndex,
 	isLoadingProducts,
@@ -44,4 +44,6 @@ export const MainContent = ( {
 			{ children }
 		</div>
 	);
-}; 
+};
+
+export default MainContent;

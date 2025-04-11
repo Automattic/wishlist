@@ -1,4 +1,4 @@
-import { MainContent } from './main-content';
+import MainContent from './main-content';
 import { User } from '@/types';
 
 type LoaderWrapperProps = {
@@ -8,7 +8,7 @@ type LoaderWrapperProps = {
 	userData: User;
 }
 
-export const LoaderWrapper = ( { children, isLoadingProducts, isLoadingUser, userData }: LoaderWrapperProps ) => {
+const LoaderWrapper = ( { children, isLoadingProducts, isLoadingUser, userData }: LoaderWrapperProps ) => {
 	return (
 		<MainContent
 			currentCardIndex={ 0 }
@@ -21,4 +21,6 @@ export const LoaderWrapper = ( { children, isLoadingProducts, isLoadingUser, use
 			</div>
 		</MainContent>
 	);
-}; 
+};
+
+export default LoaderWrapper;

@@ -5,12 +5,12 @@ import { useGravatarUser } from '@/queries/user';
 import { useRecommendedProducts } from '@/queries/product';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import ProductCard from '@/components/product-card';
 import { DbProduct } from '@/products/types';
-import { MainContent } from './main-content';
-import { LoaderWrapper } from './loader-wrapper';
-import { Footer } from './footer';
-import { Wishlist } from './wishlist';
+import MainContent from './main-content';
+import LoaderWrapper from './loader-wrapper';
+import Footer from './footer';
+import Wishlist from './wishlist';
+import ProductCard from './product-card';
 
 export default function GiftPage() {
 	const { hash } = useParams<{ hash: string }>();

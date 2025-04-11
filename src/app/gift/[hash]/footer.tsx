@@ -6,7 +6,7 @@ type FooterProps = {
 	onSeeWishlist: () => void;
 }
 
-export const Footer = ( { selectedProducts, onSeeWishlist }: FooterProps ) => {
+const Footer = ( { selectedProducts, onSeeWishlist }: FooterProps ) => {
 	return (
 		<div className="h-[72px] flex items-center justify-center shrink-0 gap-2 mt-6">
 			{ selectedProducts.length === 0 ? (
@@ -66,4 +66,6 @@ export const Footer = ( { selectedProducts, onSeeWishlist }: FooterProps ) => {
 			) }
 		</div>
 	);
-}; 
+};
+
+export default Footer;
