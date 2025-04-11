@@ -19,6 +19,8 @@ type ProductVectorResult = {
 } & DbProduct;
 
 export const findProducts = async (interests: string[]): Promise<DbProduct[]> => {
+  // Running a search for each interest using embeddings,
+  // results are merged into a single array
   const embeddings = embeddingModel.embed(interests);
 
   let results: ProductVectorResult[] = [];
@@ -31,7 +33,12 @@ export const findProducts = async (interests: string[]): Promise<DbProduct[]> =>
 
   if (results.length === 0) return [];
 
-  const products: DbProduct[] = results.sort((a, b) => a.distance - b.distance).map((result) => result);
+  // Sort by distance and deduplicate by ID
+  const products: DbProduct[] = results
+    .sort((a, b) => a.distance - b.distance)
+    .filter((result, index, self) =>
+      index === self.findIndex((t) => t.id === result.id)
+    );
 
   // Group products by store and limit to 5 per store
   const storeProducts = new Map<string, DbProduct[]>();
@@ -47,7 +54,7 @@ export const findProducts = async (interests: string[]): Promise<DbProduct[]> =>
   // Flatten the products back into a single array
   const limitedProducts = Array.from(storeProducts.values()).flat();
 
-  // Shuffle products in buckets of 10
+  // Shuffle products in buckets of 10 to add some randomness
   const bucketSize = 10;
   const shuffledProducts: DbProduct[] = [];
 
