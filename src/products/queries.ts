@@ -7,18 +7,16 @@ const embeddingModel = await FlagEmbedding.init({
 });
 
 const PRODUCT_VECTORS_QUERY = db.prepare(`
-  SELECT rowid, productId, distance
+  SELECT product_vectors.distance, products.*
   FROM product_vectors
-  WHERE productEmbedding match ?
-  ORDER BY distance
-  LIMIT 50;
+  INNER JOIN products ON product_vectors.productId = products.id
+  WHERE product_vectors.productEmbedding MATCH ? AND k = 50
+  ORDER BY product_vectors.distance
 `);
 
 type ProductVectorResult = {
-  rowid: number;
-  productId: number;
   distance: number;
-}
+} & DbProduct;
 
 export const findProducts = async (interests: string[]): Promise<DbProduct[]> => {
   const embeddings = embeddingModel.embed(interests);
@@ -26,7 +24,6 @@ export const findProducts = async (interests: string[]): Promise<DbProduct[]> =>
   let results: ProductVectorResult[] = [];
 
   for await (const batch of embeddings) {
-
     for (const b of batch) {
       results = results.concat(PRODUCT_VECTORS_QUERY.all(b) as ProductVectorResult[]);
     }
@@ -34,11 +31,7 @@ export const findProducts = async (interests: string[]): Promise<DbProduct[]> =>
 
   if (results.length === 0) return [];
 
-  const products = db.prepare(`
-    SELECT *
-    FROM products
-    WHERE id IN (${results.map((result) => result.productId).join(',')});
-  `).all() as DbProduct[];
+  const products: DbProduct[] = results.sort((a, b) => a.distance - b.distance).map((result) => result);
 
   // Group products by store and limit to 5 per store
   const storeProducts = new Map<string, DbProduct[]>();
