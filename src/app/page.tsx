@@ -28,149 +28,149 @@ export default function Home() {
 	);
 
 	return (
-		<main>
-			<div className="flex flex-col gap-[40px] bg-[var(--color-light-gray)] py-[24px] px-[20px] overflow-hidden">
-				<h1 className="text-[var(--color-light-black)] text-[48px] font-[700]">
+		<main className="h-full lg:bg-[var(--color-light-gray)]">
+			<div className="flex flex-col bg-[var(--color-light-gray)] py-[24px] px-[20px] overflow-hidden">
+				<h1 className="text-[var(--color-light-black)] text-[48px] lg:text-[24px] font-[700]">
 					WiSH
 				</h1>
-				<div className="flex gap-[24px] w-[6856px] animate-marquee">
+				<div className="flex gap-[24px] w-[6856px] animate-marquee my-[40px] lg:mt-[125px] lg:mb-[48px]">
 					<div className="flex gap-[24px]">
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/apple-watch.jpg"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-1.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/nike-shoes.png"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-2.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/apple-airpods.jpeg"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-3.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/grow-your-own.webp"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-4.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/drink-ware.webp"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-5.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/camera.webp"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-6.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/ugg-shoes.webp"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-7.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/amazon-kindle.jpg"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-8.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/fur-hat.jpg"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-9.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/candle.jpg"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-10.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/coffee-machine.jpeg"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-11.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/hair-dryer.jpg"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-12.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/ceo-glow.webp"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-13.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/perfume.jpg"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-14.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/recess-pickleball.webp"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-15.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/sun-glasses.webp"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-16.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/journal.webp"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-17.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/light.jpg"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-18.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/earphone.webp"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-19.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/switch.jpeg"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-20.jpeg"
 							width="148"
 							height="175"
 							alt=""
@@ -178,155 +178,158 @@ export default function Home() {
 					</div>
 					<div className="flex gap-[24px]">
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/apple-watch.jpg"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-1.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/nike-shoes.png"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-2.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/apple-airpods.jpeg"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-3.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/grow-your-own.webp"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-4.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/drink-ware.webp"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-5.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/camera.webp"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-6.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/ugg-shoes.webp"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-7.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/amazon-kindle.jpg"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-8.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/fur-hat.jpg"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-9.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/candle.jpg"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-10.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/coffee-machine.jpeg"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-11.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/hair-dryer.jpg"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-12.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/ceo-glow.webp"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-13.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/perfume.jpg"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-14.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/recess-pickleball.webp"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-15.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/sun-glasses.webp"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-16.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/journal.webp"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-17.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/light.jpg"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-18.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/earphone.webp"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-19.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 						<Image
-							className="rounded-[20px] object-cover bg-[var(--color-white)] w-[148px] h-[175px]"
-							src="/images/switch.jpeg"
+							className="rounded-[20px] object-cover w-[148px] h-[175px]"
+							src="/images/product-20.jpeg"
 							width="148"
 							height="175"
 							alt=""
 						/>
 					</div>
 				</div>
-				<div className="w-full max-w-[680px] mx-auto">
+				<div className="w-full lg:max-w-[360px] mx-auto">
 					<p className="text-[var(--color-light-black)] text-[36px] font-[700]">
 						Get 9 gift recommendations for friends
 					</p>
 				</div>
 			</div>
-			<div className="flex flex-col py-[24px] px-[20px] max-w-[720px] mx-auto">
-				<label htmlFor="email" className="mb-[8px] text-[var(--color-light-black)]">
+			<div className="flex flex-col py-[24px] px-[20px] lg:pt-[8px] lg:max-w-[400px] mx-auto">
+				<label
+					htmlFor="email"
+					className="mb-[8px] text-[var(--color-light-black)]"
+				>
 					Add your friend
 				</label>
 				<div className="relative">
@@ -343,7 +346,7 @@ export default function Home() {
 						id="email"
 						name="email"
 						className={clsx(
-							'w-full h-[49px] py-[10px] px-[15px] border border-[var(--color-light-black)] rounded-[8px]',
+							'w-full h-[49px] py-[10px] px-[15px] border lg:border-none border-[var(--color-light-gray)] rounded-[8px] bg-[var(--color-white)]',
 							{ 'pl-[52px]': !!data?.avatar_url }
 						)}
 						placeholder="Enter your friend’s email"
@@ -364,13 +367,16 @@ export default function Home() {
 						</div>
 					)}
 				</div>
-				<label htmlFor="budget" className="mt-[24px] mb-[8px] text-[var(--color-light-black)]">
+				<label
+					htmlFor="budget"
+					className="mt-[24px] mb-[8px] text-[var(--color-light-black)]"
+				>
 					How much would you like to spend?
 				</label>
 				<select
 					id="budget"
 					name="budget"
-					className="h-[49px] py-[10px] px-[15px] border border-[var(--color-light-black)] rounded-[8px] appearance-none bg-[url('/icons/ico-chevron-down.svg')] bg-no-repeat bg-[position:calc(100%-8px)_center] bg-[length:24px_24px] pr-[32px]"
+					className="h-[49px] py-[10px] px-[15px] border lg:border-none border-[var(--color-light-gray)] rounded-[8px] appearance-none bg-[url('/icons/ico-chevron-down.svg')] bg-no-repeat bg-[position:calc(100%-8px)_center] bg-[length:24px_24px] pr-[32px] bg-[var(--color-white)]"
 					value={budgetVal}
 					onChange={({ target }) => setBudgetVal(target.value)}
 				>
@@ -378,6 +384,10 @@ export default function Home() {
 						Select an option
 					</option>
 					<option value="TBC-1">Not a lot ($5 — $30)</option>
+					<option value="TBC-2">Budget ($30 — $60)</option>
+					<option value="TBC-3">Standard ($60 — $100)</option>
+					<option value="TBC-4">Premium ($100 — $150)</option>
+					<option value="TBC-5">Luxury ($150+)</option>
 				</select>
 				<button
 					className={clsx(
