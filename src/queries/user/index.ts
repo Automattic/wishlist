@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { sha256 } from 'js-sha256';
-import isEmail from '@/utils/is-email';
+import isEmail from '../../utils/is-email';
 
 import { BaseQueryOptions, User } from '@/types';
 

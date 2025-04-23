@@ -21,5 +21,9 @@ export const ProductSchema = z.object({
 export type Product = z.infer<typeof ProductSchema>;
 
 export type DbProduct = Product & {
-  id: number;
+  id: number | string;
 };
+
+export type ProductVectorResult = {
+  distance: number;
+} & DbProduct;

@@ -17,8 +17,16 @@ const nextConfig: NextConfig = {
 	serverExternalPackages: [
 		'@anush008/tokenizers',
 		'@anush008/tokenizers-darwin-universal',
+		'@anush008/tokenizers-linux-x64-gnu',
 		'sqlite-vec',
 	],
+	experimental: {
+		turbo: {
+			resolveAlias: {
+				'@': './src',
+			},
+		},
+	},
 };
 
 export default nextConfig;

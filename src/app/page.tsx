@@ -4,8 +4,8 @@ import { useState, useCallback } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import _debounce from 'lodash.debounce';
-import { useGravatarUser } from '@/queries/user';
-import isEmail from '@/utils/is-email';
+import { useGravatarUser } from '../queries/user/index';
+import isEmail from '../utils/is-email';
 import clsx from 'clsx';
 
 export default function Home() {

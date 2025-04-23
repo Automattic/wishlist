@@ -1,6 +1,6 @@
-import { findProducts } from "@/products/queries";
 import { NextRequest, NextResponse } from "next/server";
-import { getGravatarInterests } from "@/app/api/products/get-gravatar-interests";
+import { getGravatarInterests } from "../../../app/api/products/get-gravatar-interests";
+import { findProducts } from "../../../products/db";
 
 export async function GET( request: NextRequest ) {
 	const { searchParams } = new URL( request.url );

@@ -1,11 +1,11 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { useGravatarUser } from '@/queries/user';
-import { useRecommendedProducts } from '@/queries/product';
+import { useGravatarUser } from '../../../queries/user/index';
+import { useRecommendedProducts } from '../../../queries/product/index';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { DbProduct } from '@/products/types';
+import { DbProduct } from '../../../products/types';
 import MainContent from './main-content';
 import LoaderWrapper from './loader-wrapper';
 import Footer from './footer';

@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "src/app/api/**/*.ts": {
+      "excludeFiles": "node_modules/onnxruntime-node/** node_modules/fastembed/**"
+    }
+  }
+}

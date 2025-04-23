@@ -5,8 +5,10 @@ import { z } from "zod";
 import pLimit from "p-limit";
 import axios from "axios";
 import { load as cheerio } from "cheerio";
+import { uuidv7 } from 'uuidv7';
 import { Product, ProductSchema, Shop } from "@/products/types";
-import db from "@/products/db";
+import { findProductsByUrl, updateProduct } from "@/products/db";
+import { insertProduct } from "@/products/adapters/sqlite";
 
 const HEADERS = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
@@ -119,27 +121,17 @@ const scrapeProductDetails = async (productUrl: string): Promise<{
 };
 
 const saveProduct = async (shop: Shop, product: Product) => {
-  const existingProduct = await db.prepare('SELECT id FROM products WHERE productUrl = ?').all([product.productUrl]);
+  const existingProduct = await findProductsByUrl([product.productUrl]);
 
   if (existingProduct.length > 0) {
-    db.prepare(`
-      UPDATE products
-      SET productName = :productName,
-          description = :description,
-          shopName = :shopName,
-          imageUrl = :imageUrl,
-          priceMin = :priceMin,
-          priceMax = :priceMax,
-          currency = :currency
-      WHERE productUrl = :productUrl
-    `).run(product);
+    await updateProduct(product);
 
     console.log(`[${shop.name}]: Updated product ${product.productName}`);
   } else {
-    db.prepare(`
-      INSERT INTO products (productName, description, shopName, productUrl, imageUrl, priceMin, priceMax, currency)
-      VALUES (:productName, :description, :shopName, :productUrl, :imageUrl, :priceMin, :priceMax, :currency)
-    `).run(product);
+    await insertProduct({
+      id: uuidv7(),
+      ...product,
+    });
 
     console.log(`[${shop.name}]: Saved product ${product.productName}`);
   }
