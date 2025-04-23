@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { useGravatarUser } from '@/queries/user';
 import { useRecommendedProducts } from '@/queries/product';
 import Image from 'next/image';
@@ -14,6 +14,7 @@ import ProductCard from './product-card';
 
 export default function GiftPage() {
 	const { hash } = useParams<{ hash: string }>();
+	const searchParams = useSearchParams();
 	const [ currentCardIndex, setCurrentCardIndex ] = useState( 0 );
 	const [ selectedProducts, setSelectedProducts ] = useState<DbProduct[]>( [] );
 	const [ isWishlistOpen, setIsWishlistOpen ] = useState( false );
@@ -28,7 +29,7 @@ export default function GiftPage() {
 		data: products,
 		isError: isFetchProductsError,
 		isFetching: isFetchingProducts,
-	} = useRecommendedProducts( userData?.hash, {
+	} = useRecommendedProducts( userData?.hash, searchParams.get( 'budget' ) ?? ':30', {
 		enabled: !! userData?.hash,
 	} );
 
