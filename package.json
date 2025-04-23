@@ -1,5 +1,5 @@
 {
-  "name": "wishlist.nosync",
+  "name": "@automattic/wish",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -32,6 +32,7 @@
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/better-sqlite3": "^7.6.12",
+    "@types/lodash.debounce": "^4.0.9",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -42,5 +43,9 @@
     "tsx": "^4.19.3",
     "typescript": "^5",
     "yargs": "^17.7.2"
+  },
+  "optionalDependencies": {
+    "@tailwindcss/oxide-linux-x64-gnu": "^4.0.1",
+    "lightningcss-linux-x64-gnu": "^1.29.1"
   }
 }
