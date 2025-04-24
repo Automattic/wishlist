@@ -82,6 +82,11 @@ export const findProducts = async (embeddings: number[][], priceMin: number = 0,
   return results;
 };
 
+export const findProductsByInterests = async (interests: string[], priceMin: number = 0, priceMax: number = Number.MAX_SAFE_INTEGER): Promise<ProductVectorResult[]> => {
+  console.log(`Finding products by interests: ${interests.join(", ")}`, { priceMin, priceMax });
+  throw new Error('Not implemented');
+};
+
 export const findProductsByUrl = async (urls: string[]): Promise<DbProduct[]> => {
   return db.prepare('SELECT * FROM products WHERE productUrl IN (?)').all(urls) as DbProduct[];
 };
@@ -128,6 +133,7 @@ const sqliteAdapter = {
   findAllProducts,
   findInterestVector,
   findProducts,
+  findProductsByInterests,
   findProductsByUrl,
   insertProduct,
   insertProductVector,

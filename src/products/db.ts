@@ -16,9 +16,16 @@ const adapters = {
 
 type AdapterKey = keyof typeof adapters;
 
-const { DATABASE_ADAPTER } = z.object({
+enum SearchType {
+  INTERESTS = 'INTERESTS',
+  VECTORS = 'VECTORS'
+}
+
+const { DATABASE_ADAPTER, SEARCH_TYPE } = z.object({
   DATABASE_ADAPTER: z.enum(Object.keys(adapters) as [AdapterKey, ...AdapterKey[]])
     .default('SQLITE'),
+  SEARCH_TYPE: z.nativeEnum(SearchType)
+    .default(SearchType.INTERESTS),
 }).parse(process.env);
 
 export const clearDb = adapters[DATABASE_ADAPTER].clearDb;
@@ -31,26 +38,32 @@ export const findProducts = async (interests: string[], priceMin: number = 0, pr
 
   console.log(`Finding products for ${interests.length} interests`, { interests });
 
-  const limit = pLimit(10);
+  let results: ProductVectorResult[] = [];
 
-  const embeddings = await Promise.all(interests.map((interest) => limit(async () => {
-    const embeddings = await adapters[DATABASE_ADAPTER].findInterestVector(interest);
+  if (SEARCH_TYPE === SearchType.INTERESTS) {
+    results = await adapters[DATABASE_ADAPTER].findProductsByInterests(interests, priceMin, priceMax);
+  } else {
+    const limit = pLimit(10);
 
-    if (embeddings) return embeddings;
+    const embeddings = await Promise.all(interests.map((interest) => limit(async () => {
+      const embeddings = await adapters[DATABASE_ADAPTER].findInterestVector(interest);
 
-    const embedding = await embeddingModel.embed([interest]);
+      if (embeddings) return embeddings;
 
-    for await (const batch of embedding) {
-      await adapters[DATABASE_ADAPTER].upsertInterestVector(interest, batch[0]);
-      return batch[0];
-    }
+      const embedding = await embeddingModel.embed([interest]);
 
-    throw new Error('Failed to calculate embeddings');
-  })));
+      for await (const batch of embedding) {
+        await adapters[DATABASE_ADAPTER].upsertInterestVector(interest, batch[0]);
+        return batch[0];
+      }
 
-  console.log('Calculated embeddings', embeddings.length);
+      throw new Error('Failed to calculate embeddings');
+    })));
 
-  const results = await adapters[DATABASE_ADAPTER].findProducts(embeddings, priceMin, priceMax);
+    console.log('Calculated embeddings', embeddings.length);
+
+    results = await adapters[DATABASE_ADAPTER].findProducts(embeddings, priceMin, priceMax);
+  }
 
   console.log(`Took ${new Date().getTime() - s.getTime()}ms`, results.length);
 
