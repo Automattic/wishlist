@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 type ProductCardProps = {
 	product: {
-		id: number;
+		id: number | string;
 		imageUrl: string;
 		productName: string;
 		priceMin?: number | null;

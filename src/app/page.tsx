@@ -383,11 +383,11 @@ export default function Home() {
 					<option value="" disabled>
 						Select an option
 					</option>
-					<option value="TBC-1">Not a lot ($5 — $30)</option>
-					<option value="TBC-2">Budget ($30 — $60)</option>
-					<option value="TBC-3">Standard ($60 — $100)</option>
-					<option value="TBC-4">Premium ($100 — $150)</option>
-					<option value="TBC-5">Luxury ($150+)</option>
+					<option value=":30">Not a lot (Up to $30)</option>
+					<option value="30:60">Budget ($30 — $60)</option>
+					<option value="60:100">Standard ($60 — $100)</option>
+					<option value="100:150">Premium ($100 — $150)</option>
+					<option value="150:">Luxury ($150+)</option>
 				</select>
 				<button
 					className={clsx(
