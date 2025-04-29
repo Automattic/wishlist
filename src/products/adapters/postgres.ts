@@ -131,11 +131,13 @@ export const findProducts = async (embeddings: number[][], priceMin: number = 0,
 };
 
 export const findProductsByInterests = async (interests: string[], priceMin: number = 0, priceMax: number = Number.MAX_SAFE_INTEGER): Promise<ProductVectorResult[]> => {
+  const loweredCaseInterests = interests.map((interest) => interest.toLowerCase());
+
   const results = await sql`
     SELECT p.*,
-           array_length(array(select unnest(p.interests) intersect select unnest(${interests}::text[])), 1) * -1 as distance
+           array_length(array(select unnest(p.interests) intersect select unnest(${loweredCaseInterests}::text[])), 1) * -1 as distance
     FROM products AS p
-    WHERE p.interests && ${interests}::text[]
+    WHERE p.interests && ${loweredCaseInterests}::text[]
       AND p.priceMin >= ${priceMin} AND p.priceMax <= ${priceMax}
     ORDER BY distance ASC, array_length(p.interests, 1) ASC
     LIMIT 100
