@@ -1,24 +1,22 @@
 import { useRef, useState } from 'react';
 import { animate, motion, useMotionValue, useTransform } from 'framer-motion';
 import Image from 'next/image';
+import { ProductVectorResult } from '@/products/types';
+import { useSearchParams } from 'next/navigation';
 
 type ProductCardProps = {
-	product: {
-		id: number | string;
-		imageUrl: string;
-		productName: string;
-		priceMin?: number | null;
-		currency?: string | null;
-	};
+	product: ProductVectorResult;
 	onSwipeLeft?: () => void;
 	onSwipeRight?: () => void;
 	style?: React.CSSProperties;
+	userInterests?: string[];
 };
 
-const ProductCard = ( { product, onSwipeLeft, onSwipeRight, style }: ProductCardProps ) => {
+const ProductCard = ( { product, onSwipeLeft, onSwipeRight, style, userInterests }: ProductCardProps ) => {
 	const cardRef = useRef<HTMLDivElement>( null );
 	const [ isDragging, setIsDragging ] = useState( false );
 	const [ isExiting, setIsExiting ] = useState( false );
+	const searchParams = useSearchParams();
 
 	// Motion values for the card's position
 	const x = useMotionValue( 0 );
@@ -89,8 +87,24 @@ const ProductCard = ( { product, onSwipeLeft, onSwipeRight, style }: ProductCard
 							alt=""
 						/>
 					) ) }
+					{ searchParams.has( 'debug' ) && ( product.interests ?? [] ).length > 0 ? (
+						<div className="relative inline-block group">
+							<span className="ml-2 cursor-help inline-block relative">︖
+								<div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-3 py-2 bg-black text-white text-sm rounded-lg whitespace-nowrap z-[100] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none">
+									<div className="flex flex-col gap-1">
+										{product.interests?.map(( interest, index ) => (
+											<span key={ `${product.id}-${index}` } className={ `${userInterests?.includes( interest ) ? 'text-green-500' : 'text-red-500' }` }>• { interest }</span>
+										))}
+									</div>
+									<div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-2 h-2 bg-black"></div>
+								</div>
+							</span>
+						</div>
+					) : null }
 				</div>
-				<span className="text-2xl truncate">{ product.productName }</span>
+				<span className="text-2xl truncate">
+					{ product.productName }
+				</span>
 				{ product.priceMin ? (
 					<span className="text-2xl font-bold">{ product.priceMin.toLocaleString( 'en-EN', {
 						style: 'currency',

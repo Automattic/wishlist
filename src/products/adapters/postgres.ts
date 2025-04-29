@@ -14,6 +14,7 @@ type ProductVectorResultPostgres = {
   pricemax: number;
   currency: string;
   distance: number;
+  interests: string[];
 }
 
 type DbProductPostgres = {

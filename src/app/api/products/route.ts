@@ -32,5 +32,5 @@ export async function GET( request: NextRequest ) {
 
 	const products = await findProducts( interests, priceMin, priceMax );
 
-	return NextResponse.json( { products } );
+	return NextResponse.json( { products, interests } );
 }
