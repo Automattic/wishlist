@@ -11,7 +11,7 @@ import clsx from 'clsx';
 export default function Home() {
 	const [emailVal, setEmailVal] = useState('');
 	const [debouncedEmailVal, setDebouncedEmailVal] = useState('');
-	const [budgetVal, setBudgetVal] = useState('');
+	const [budgetVal, setBudgetVal] = useState(':');
 	const isEmailValid = isEmail(debouncedEmailVal);
 	const router = useRouter();
 
@@ -380,7 +380,7 @@ export default function Home() {
 					value={budgetVal}
 					onChange={({ target }) => setBudgetVal(target.value)}
 				>
-					<option value="" disabled>
+					<option value=":">
 						Select an option
 					</option>
 					<option value=":30">Not a lot (Up to $30)</option>

@@ -26,8 +26,8 @@ export async function GET( request: NextRequest ) {
 		priceMin: z.coerce.number().default( 0 ),
 		priceMax: z.coerce.number().default( Number.MAX_SAFE_INTEGER ),
 	} ).parse( {
-		priceMin: splitBudget[ 0 ],
-		priceMax: splitBudget[ 1 ],
+		priceMin: splitBudget[ 0 ] || 0,
+		priceMax: splitBudget[ 1 ] || Number.MAX_SAFE_INTEGER,
 	} );
 
 	const products = await findProducts( interests, priceMin, priceMax );

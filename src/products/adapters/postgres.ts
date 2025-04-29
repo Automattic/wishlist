@@ -71,6 +71,7 @@ export const setupDb = async () => {
       priceMin FLOAT,
       priceMax FLOAT,
       currency TEXT
+      interests TEXT[]
     )
   `;
 
@@ -129,24 +130,16 @@ export const findProducts = async (embeddings: number[][], priceMin: number = 0,
   return formatProducts(results.flat());
 };
 
-export const findProductsByInterests = async (interests: string[]): Promise<ProductVectorResult[]> => {
-  // Create a tsquery string by joining interests with OR operator
-  const tsquery = interests.map(interest => `'${interest}'`).join(' | ');
-
+export const findProductsByInterests = async (interests: string[], priceMin: number = 0, priceMax: number = Number.MAX_SAFE_INTEGER): Promise<ProductVectorResult[]> => {
   const results = await sql`
     SELECT p.*,
-           ts_rank(
-             setweight(to_tsvector('english', p.productName), 'A') ||
-             setweight(to_tsvector('english', p.description), 'B'),
-             to_tsquery('english', ${tsquery})
-           ) as distance
+           array_length(array(select unnest(p.interests) intersect select unnest(${interests}::text[])), 1) * -1 as distance
     FROM products AS p
-    WHERE to_tsvector('english', p.productName || ' ' || p.description) @@ to_tsquery('english', ${tsquery})
-    ORDER BY distance DESC
-    LIMIT 50
+    WHERE p.interests && ${interests}::text[]
+      AND p.priceMin >= ${priceMin} AND p.priceMax <= ${priceMax}
+    ORDER BY distance ASC, array_length(p.interests, 1) ASC
+    LIMIT 100
   ` as ProductVectorResultPostgres[];
-
-  console.log(results, interests);
 
   return formatProducts(results);
 };
@@ -206,7 +199,8 @@ export const updateProduct = async (product: Omit<DbProduct, 'id'>): Promise<voi
         imageUrl = ${product.imageUrl},
         priceMin = ${product.priceMin},
         priceMax = ${product.priceMax},
-        currency = ${product.currency}
+        currency = ${product.currency},
+        interests = ${product.interests ?? null}::text[]
     WHERE productUrl = ${product.productUrl};
   `;
 };
@@ -232,6 +226,7 @@ const postgresAdapter = {
   findAllProducts,
   findInterestVector,
   findProducts,
+  findProductsByInterests,
   findProductsByUrl,
   insertProduct,
   insertProductVector,

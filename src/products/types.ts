@@ -16,6 +16,7 @@ export const ProductSchema = z.object({
   priceMin: z.coerce.number().optional().nullable(),
   priceMax: z.coerce.number().optional().nullable(),
   currency: z.string().optional().nullable(),
+  interests: z.array(z.string()).optional().nullable(),
 });
 
 export type Product = z.infer<typeof ProductSchema>;
