@@ -7,11 +7,11 @@ import axios from "axios";
 import { load as cheerio } from "cheerio";
 import { uuidv7 } from 'uuidv7';
 import { Product, ProductSchema, Shop } from "@/products/types";
-import { findProductsByUrl, updateProduct } from "@/products/db";
-import { insertProduct } from "@/products/adapters/sqlite";
+import { findProductsByUrl, insertProduct, updateProduct } from "@/products/db";
 
 const HEADERS = {
-  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+  'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:137.0) Gecko/20100101 Firefox/137.0',
+  Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
   'Accept-Language': 'en-US,en;q=0.9',
 };
 
@@ -202,7 +202,7 @@ const scrapeShop = async (shop: Shop) => {
       try {
         await saveProductData(shop, product);
       } catch (error) {
-        console.log(`[${shop.name}]: Error saving product: ${error}`);
+        console.log(`[${shop.name}]: ${product.link} Error saving product: ${error}`);
       }
 
       await new Promise((resolve) => setTimeout(resolve, Math.random() * 100 + 100));
