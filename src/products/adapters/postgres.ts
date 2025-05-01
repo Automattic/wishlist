@@ -14,6 +14,7 @@ type ProductVectorResultPostgres = {
   pricemax: number;
   currency: string;
   distance: number;
+  interests: string[];
 }
 
 type DbProductPostgres = {
@@ -121,7 +122,9 @@ export const findProducts = async (embeddings: number[][], priceMin: number = 0,
       SELECT p.*, v.productEmbedding <-> ${`[${embedding.join(",")}]`} AS distance
       FROM product_vectors AS v
       INNER JOIN products AS p ON v.productId = p.id
-      WHERE p.priceMin >= ${priceMin} AND p.priceMax <= ${priceMax}
+      WHERE p.active = true
+        AND p.priceMin >= ${priceMin}
+        AND p.priceMax <= ${priceMax}
       ORDER BY distance
       LIMIT 20
     ` as ProductVectorResultPostgres[];
@@ -137,9 +140,13 @@ export const findProductsByInterests = async (interests: string[], priceMin: num
     SELECT p.*,
            array_length(array(select unnest(p.interests) intersect select unnest(${loweredCaseInterests}::text[])), 1) * -1 as distance
     FROM products AS p
-    WHERE p.interests && ${loweredCaseInterests}::text[]
-      AND p.priceMin >= ${priceMin} AND p.priceMax <= ${priceMax}
-    ORDER BY distance ASC, array_length(p.interests, 1) ASC
+    WHERE p.active = true
+      AND p.interests && ${loweredCaseInterests}::text[]
+      AND p.priceMin >= ${priceMin}
+      AND p.priceMax <= ${priceMax}
+    ORDER BY distance ASC,
+             array_length(p.interests, 1) ASC,
+             p.priceMin ASC
     LIMIT 100
   ` as ProductVectorResultPostgres[];
 

@@ -26,7 +26,7 @@ export default function GiftPage() {
 	} = useGravatarUser( hash );
 
 	const {
-		data: products,
+		data: productsData,
 		isError: isFetchProductsError,
 		isFetching: isFetchingProducts,
 	} = useRecommendedProducts( userData?.hash, searchParams.get( 'budget' ) ?? ':30', {
@@ -94,7 +94,7 @@ export default function GiftPage() {
 		);
 	}
 
-	if ( ! products?.length ) {
+	if ( ! productsData?.products?.length ) {
 		return (
 			<LoaderWrapper
 				isLoadingProducts={ isFetchingProducts }
@@ -108,12 +108,12 @@ export default function GiftPage() {
 
 	const handleSwipeLeft = () => {
 		// Add your "Not for me" logic here
-		setCurrentCardIndex( prev => Math.min( prev + 1, ( products?.length ?? 1 ) - 1 ) );
+		setCurrentCardIndex( prev => Math.min( prev + 1, ( productsData?.products?.length ?? 1 ) - 1 ) );
 	};
 
 	const handleSwipeRight = ( product: DbProduct ) => {
 		// Add your "Add to wishlist" logic here
-		setCurrentCardIndex( prev => Math.min( prev + 1, ( products?.length ?? 1 ) - 1 ) );
+		setCurrentCardIndex( prev => Math.min( prev + 1, ( productsData?.products?.length ?? 1 ) - 1 ) );
 
 		setSelectedProducts( ( currentProducts ) => {
 			const newProducts = [ product, ...currentProducts ];
@@ -132,6 +132,7 @@ export default function GiftPage() {
 			isLoadingUser={ isFetchingUser }
 			isLoadingProducts={ isFetchingProducts }
 			userData={ userData }
+			interests={ productsData?.interests }
 		>
 			{ isWishlistOpen ? (
 				<Wishlist
@@ -142,16 +143,17 @@ export default function GiftPage() {
 			) : (
 				<>
 					<div className="relative h-full product-card-wrapper">
-						{ products.map( ( product, index ) => (
+						{ productsData?.products.map( ( product, index ) => (
 							<ProductCard
 								key={ product.id }
 								product={ product }
 								onSwipeLeft={ () => handleSwipeLeft() }
 								onSwipeRight={ () => handleSwipeRight( product ) }
 								style={ {
-									zIndex: products.length - index,
+									zIndex: productsData?.products.length - index,
 									pointerEvents: index === currentCardIndex ? 'auto' : 'none',
 								} }
+								userInterests={ productsData?.interests }
 							/>
 						) ) }
 					</div>
