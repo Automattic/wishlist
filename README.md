@@ -1,3 +1,8 @@
+# ⚠️ Repository Archived
+> [!WARNING]
+> This repository is **archived** and is now **read-only**.  
+> It was an experiment on how to use Gravatar's enhanced interests to build an ecommerce wishlist.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
